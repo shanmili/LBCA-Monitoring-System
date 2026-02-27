@@ -11,6 +11,7 @@ import PacePage from '../components/modules/PacePage.jsx';
 import EarlyWarningPage from '../components/modules/EarlyWarningPage.jsx';
 import NotFound from '../components/common/NotFound.jsx';
 
+
 const AdminScreen = ({ onLogout, user }) => {
   const navigate = useNavigate();
   const [adminPhoto, setAdminPhoto] = useState(null);

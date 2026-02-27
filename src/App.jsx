@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import TeacherScreen from './screens/TeacherScreen';
 import AdminScreen from './screens/AdminScreen';
@@ -15,6 +15,7 @@ import './styles/layout/UserMenu.css';
 import './styles/layout/Notification.css';
 import './styles/profileSetting/ProfileSetting.css';
 import { SchoolProvider } from './context/SchoolContext';
+import LoadingScreen from './components/common/LoadingScreen';
 
 const VALID_CREDENTIALS = {
   teacher: { email: 'teacher@lbca.edu', password: 'teacher123' },
@@ -55,9 +56,15 @@ function App() {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('lbca_user');
-    setUser(null);
+    setIsLoading(true);
+    setTimeout(() => {
+      sessionStorage.removeItem('lbca_user');
+      setUser(null);
+      setIsLoading(false);
+    }, 800);
   };
+
+  if (isLoading) return <LoadingScreen message={user ? 'Signing out...' : 'Signing you in...'} />;
 
   return (
     <SchoolProvider>
@@ -74,15 +81,11 @@ function App() {
           )}
 
           {user?.role === 'teacher' && (
-            <>
-              <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />
-            </>
+            <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />
           )}
 
           {user?.role === 'admin' && (
-            <>
-              <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />
-            </>
+            <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />
           )}
         </Routes>
       </BrowserRouter>

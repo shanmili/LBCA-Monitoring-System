@@ -1,0 +1,231 @@
+/* src/styles/LoadingScreen.css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;900&display=swap');
+
+.loading-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  font-family: 'Nunito Sans', sans-serif;
+  z-index: 9999;
+}
+
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.loading-svg-col {
+  flex: 1 1 300px;
+  max-width: 420px;
+  min-width: 220px;
+}
+
+.loading-svg-col svg {
+  width: 100%;
+  height: auto;
+}
+
+.loading-text-col {
+  flex: 1 1 240px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.loading-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #0e0620;
+  line-height: 1;
+  margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.loading-message {
+  font-size: 1rem;
+  color: #0e0620;
+  margin: 0;
+  opacity: 0.7;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* Loading bar */
+.loading-bar-track {
+  width: 100%;
+  max-width: 280px;
+  height: 6px;
+  background: rgba(44, 207, 109, 0.2);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  width: 40%;
+  background: #2ccf6d;
+  border-radius: 99px;
+  animation: ld-bar 1.6s ease-in-out infinite;
+}
+
+@keyframes ld-bar {
+  0%   { transform: translateX(-100%); width: 40%; }
+  50%  { width: 60%; }
+  100% { transform: translateX(300%); width: 40%; }
+}
+
+/* Dots */
+.loading-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 0.25rem;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ccf6d;
+  animation: ld-dot 1.2s ease-in-out infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes ld-dot {
+  0%, 100% { transform: scale(0.6); opacity: 0.4; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
+/* ===== SVG Animations (same as NotFound) ===== */
+.ld-spaceman {
+  animation: ld-float 3s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes ld-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+
+.ld-planet {
+  animation: ld-rock 2s ease-in-out infinite;
+  transform-origin: 572px 108px;
+}
+@keyframes ld-rock {
+  0%, 100% { transform: rotate(0deg); }
+  50%       { transform: rotate(-2deg); }
+}
+
+.ld-crater-big  { animation: ld-slide-right 2s ease-in-out infinite; }
+.ld-crater-small { animation: ld-slide-left 2s ease-in-out infinite; }
+@keyframes ld-slide-right {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(3px); }
+}
+@keyframes ld-slide-left {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(-3px); }
+}
+
+.ld-star-big {
+  animation: ld-star-blink 2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes ld-star-blink {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+.ld-star-big:nth-child(1) { animation-duration: 2s;   }
+.ld-star-big:nth-child(2) { animation-duration: 2.4s; }
+.ld-star-big:nth-child(3) { animation-duration: 1.8s; }
+.ld-star-big:nth-child(4) { animation-duration: 2.2s; }
+
+.ld-star-small {
+  animation: ld-star-blink-small 1.5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes ld-star-blink-small {
+  0%, 100% { opacity: 0; transform: scale(0.3); }
+  50%       { opacity: 1; transform: scale(1); }
+}
+.ld-star-small:nth-child(1) { animation-duration: 1.5s; }
+.ld-star-small:nth-child(2) { animation-duration: 1.8s; }
+.ld-star-small:nth-child(3) { animation-duration: 1.3s; }
+.ld-star-small:nth-child(4) { animation-duration: 2s;   }
+.ld-star-small:nth-child(5) { animation-duration: 1.6s; }
+.ld-star-small:nth-child(6) { animation-duration: 1.4s; }
+
+.ld-circle-big {
+  animation: ld-bob 2s ease-in-out infinite;
+}
+@keyframes ld-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-2px); }
+}
+
+.ld-circle-small {
+  animation: ld-bob-small 2s ease-in-out infinite;
+}
+@keyframes ld-bob-small {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+.ld-glassshine {
+  animation: ld-shine 10s ease-in-out infinite;
+  animation-delay: 2s;
+  transform-origin: 50% 50%;
+}
+@keyframes ld-shine {
+  0%   { transform: translateX(-68px) rotate(0deg);   opacity: 0; }
+  5%   { transform: translateX(-68px) rotate(0deg);   opacity: 1; }
+  25%  { transform: translateX(80px)  rotate(-30deg); opacity: 1; }
+  30%  { transform: translateX(80px)  rotate(-30deg); opacity: 0; }
+  100% { transform: translateX(80px)  rotate(-30deg); opacity: 0; }
+}
+
+/* Dark mode */
+[data-theme="dark"] .loading-wrapper {
+  background-color: var(--bg-primary);
+}
+
+[data-theme="dark"] .loading-title,
+[data-theme="dark"] .loading-message {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .loading-svg-col svg circle,
+[data-theme="dark"] .loading-svg-col svg ellipse,
+[data-theme="dark"] .loading-svg-col svg line,
+[data-theme="dark"] .loading-svg-col svg path,
+[data-theme="dark"] .loading-svg-col svg polygon {
+  stroke: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] .loading-svg-col svg circle[fill="#0E0620"] {
+  fill: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] .loading-svg-col svg path[fill="#FFFFFF"],
+[data-theme="dark"] .loading-svg-col svg circle[fill="#FFFFFF"],
+[data-theme="dark"] .loading-svg-col svg ellipse[fill="#FFFFFF"] {
+  fill: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 640px) {
+  .loading-content   { flex-direction: column; text-align: center; }
+  .loading-text-col  { align-items: center; }
+  .loading-title     { font-size: 2.5rem; }
+  .loading-bar-track { max-width: 220px; }
+}
