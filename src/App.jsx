@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import TeacherScreen from './screens/TeacherScreen';
 import AdminScreen from './screens/AdminScreen';
@@ -22,10 +22,13 @@ const VALID_CREDENTIALS = {
 };
 
 function App() {
-  // Restore user from sessionStorage so reloads don't kick you to login
   const [user, setUser] = useState(() => {
-    const saved = sessionStorage.getItem('lbca_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = sessionStorage.getItem('lbca_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -33,19 +36,14 @@ function App() {
   const handleLogin = (email, password) => {
     setIsLoading(true);
     setError('');
-
     setTimeout(() => {
-      if (
-        email === VALID_CREDENTIALS.teacher.email &&
-        password === VALID_CREDENTIALS.teacher.password
-      ) {
+      if (email === VALID_CREDENTIALS.teacher.email &&
+          password === VALID_CREDENTIALS.teacher.password) {
         const userData = { role: 'teacher', email };
         sessionStorage.setItem('lbca_user', JSON.stringify(userData));
         setUser(userData);
-      } else if (
-        email === VALID_CREDENTIALS.admin.email &&
-        password === VALID_CREDENTIALS.admin.password
-      ) {
+      } else if (email === VALID_CREDENTIALS.admin.email &&
+                 password === VALID_CREDENTIALS.admin.password) {
         const userData = { role: 'admin', email };
         sessionStorage.setItem('lbca_user', JSON.stringify(userData));
         setUser(userData);
@@ -66,30 +64,25 @@ function App() {
       <BrowserRouter basename="/LBCA-Monitoring-System">
         <Routes>
           {!user && (
-            <Route
-              path="*"
-              element={
-                <LoginScreen
-                  onLogin={handleLogin}
-                  error={error}
-                  isLoading={isLoading}
-                />
-              }
-            />
+            <Route path="*" element={
+              <LoginScreen
+                onLogin={handleLogin}
+                error={error}
+                isLoading={isLoading}
+              />
+            } />
           )}
 
           {user?.role === 'teacher' && (
-            <Route
-              path="/*"
-              element={<TeacherScreen onLogout={handleLogout} user={user} />}
-            />
+            <>
+              <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />
+            </>
           )}
 
           {user?.role === 'admin' && (
-            <Route
-              path="/*"
-              element={<AdminScreen onLogout={handleLogout} user={user} />}
-            />
+            <>
+              <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />
+            </>
           )}
         </Routes>
       </BrowserRouter>

@@ -27,10 +27,11 @@
     <title>Analytics Dashboard (Admin/Teacher View)</title>
 
     <script>
-      const redirect = sessionStorage.getItem('redirect');
+      var redirect = sessionStorage.getItem('redirect');
       if (redirect) {
         sessionStorage.removeItem('redirect');
-        window.history.replaceState(null, '', '/LBCA-Monitoring-System' + redirect);
+        var newUrl = '/LBCA-Monitoring-System' + (redirect === '/' ? '' : redirect);
+        window.history.replaceState(null, '', newUrl);
       }
     </script>
   </head>

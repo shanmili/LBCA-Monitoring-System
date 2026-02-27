@@ -16,10 +16,10 @@ const TeacherScreen = ({ onLogout, user }) => {
   // Redirect to /dashboard on first mount
   useEffect(() => {
     const path = window.location.pathname;
-    const isBase = path === '/' || 
-                  path === '/LBCA-Monitoring-System' || 
-                  path === '/LBCA-Monitoring-System/';
-    if (isBase) {
+    // Only redirect if literally at the base with no route
+    if (path === '/LBCA-Monitoring-System' || 
+        path === '/LBCA-Monitoring-System/' ||
+        path === '/LBCA-Monitoring-System/?r=1') {
       navigate('/dashboard', { replace: true });
     }
   }, []);
