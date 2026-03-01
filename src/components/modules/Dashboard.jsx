@@ -1,3 +1,4 @@
+import React from 'react';
 import OverviewSection from './dashboard/OverviewSection';
 import KpiCards from './dashboard/KpiCards';
 import TrendChart from './dashboard/TrendChart';

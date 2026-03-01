@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, User, Sun, LogOut } from 'lucide-react';
 import Theme from '../common/Theme.jsx';
 import '../../styles/layout/UserMenu.css';
@@ -45,7 +45,7 @@ const UserMenu = ({ onLogout, onNavigate, adminPhoto, userRole = 'admin' }) => {
       {isOpen && (
         <div className="user-dropdown">
           <div className="dropdown-header">
-            <p>Signed in as <strong>{userRole === 'admin' ? 'Admin' : 'Teacher'}</strong></p>
+            <p>Signed in as <strong>{userRole === 'admin' ? 'Admin User' : 'Teacher User'}</strong></p>
           </div>
           
           <div className="dropdown-divider" />

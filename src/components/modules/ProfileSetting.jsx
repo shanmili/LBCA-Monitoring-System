@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import useProfileSettingsState from "../../hooks/useProfileSettingsState";
 import UploadPhotoModal from './profileSetting/UploadPhoto';
 import '../../styles/profileSetting/ProfileSetting.css';
@@ -9,9 +9,7 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
     lname, setLname, 
     email, setEmail, 
     toast, showToast, 
-    displayName, initials,
-    schedule, updateScheduleDay, setSchedule, defaultSchedule,
-    sections, toggleSection, availableSections,
+    displayName, initials 
   } = useProfileSettingsState(userRole);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -225,87 +223,6 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
             </button>
           </div>
         </div>
-
-        {/* Schedule Availability Card (Teacher only) */}
-        {userRole === 'teacher' && (
-          <div className="profile-card">
-            <div className="card-label">Schedule Availability</div>
-            <p className="schedule-hint">Set your available days and time slots for classes.</p>
-            <div className="schedule-list">
-              {schedule.map((slot, index) => (
-                <div key={slot.day} className={`schedule-row ${!slot.available ? 'schedule-row-disabled' : ''}`}>
-                  <label className="schedule-day-toggle">
-                    <input
-                      type="checkbox"
-                      checked={slot.available}
-                      onChange={(e) => updateScheduleDay(index, 'available', e.target.checked)}
-                      className="schedule-checkbox"
-                    />
-                    <span className="schedule-day-name">{slot.day}</span>
-                  </label>
-                  <div className="schedule-time-group">
-                    <input
-                      type="time"
-                      className="field-input schedule-time-input"
-                      value={slot.startTime}
-                      onChange={(e) => updateScheduleDay(index, 'startTime', e.target.value)}
-                      disabled={!slot.available}
-                    />
-                    <span className="schedule-time-separator">to</span>
-                    <input
-                      type="time"
-                      className="field-input schedule-time-input"
-                      value={slot.endTime}
-                      onChange={(e) => updateScheduleDay(index, 'endTime', e.target.value)}
-                      disabled={!slot.available}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="card-actions">
-              <button className="btn-secondary" onClick={() => setSchedule(defaultSchedule)}>
-                Reset to Default
-              </button>
-              <button className="btn-primary" onClick={() => showToast('Schedule updated successfully.')}>
-                Save Schedule
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Section Handled Card (Teacher only) */}
-        {userRole === 'teacher' && (
-          <div className="profile-card">
-            <div className="card-label">Section Handled</div>
-            <p className="schedule-hint">Select the sections you are currently handling.</p>
-            <div className="sections-grid">
-              {availableSections.map((section) => (
-                <label key={section} className={`section-chip ${sections.includes(section) ? 'section-chip-active' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={sections.includes(section)}
-                    onChange={() => toggleSection(section)}
-                    className="section-chip-input"
-                  />
-                  <span className="section-chip-label">{section}</span>
-                </label>
-              ))}
-            </div>
-            {sections.length > 0 && (
-              <div className="sections-summary">
-                <span className="sections-summary-label">Currently handling:</span>
-                <span className="sections-summary-value">{sections.join(', ')}</span>
-              </div>
-            )}
-            <div className="card-actions">
-              <button className="btn-secondary" onClick={() => toggleSection(sections[0]) || showToast('Sections cleared.')}>Cancel</button>
-              <button className="btn-primary" onClick={() => showToast('Sections updated successfully.')}>
-                Save Sections
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Account Details Card */}
         <div className="profile-card">
