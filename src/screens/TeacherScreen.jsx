@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout.jsx';
 import { NotificationProvider } from '../context/NotificationContext.jsx';
@@ -14,6 +14,7 @@ import { teachersData } from '../data/mockData';
 const TeacherScreen = ({ onLogout, user }) => {
   const navigate = useNavigate();
   const { schoolLogo } = useSchool();
+  const [teacherPhoto, setTeacherPhoto] = useState(null);
   
   // Get current teacher data
   const currentTeacher = teachersData.find(t => t.id === user?.id) || teachersData[0];
@@ -55,6 +56,7 @@ const TeacherScreen = ({ onLogout, user }) => {
         onNavigate={handleNavigate}
         userRole="teacher"
         schoolLogo={schoolLogo}
+        userPhoto={teacherPhoto}
       >
         <Routes>
           <Route path="/dashboard" element={<Dashboard onNavigate={handleNavigate} />} />
@@ -77,7 +79,13 @@ const TeacherScreen = ({ onLogout, user }) => {
               />
             } 
           />
-          <Route path="/account-settings" element={<ProfileSetting onNavigate={handleNavigate} />} />
+          <Route path="/account-settings" element={
+            <ProfileSetting 
+              onNavigate={handleNavigate} 
+              onAdminPhotoUpdate={setTeacherPhoto}
+              userRole="teacher"
+            />
+          } />
           <Route path="/student/:studentId" element={<StudentsProfile onNavigate={handleNavigate} />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
