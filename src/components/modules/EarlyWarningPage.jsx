@@ -5,14 +5,14 @@ import WarningTable from './earlywarning/WarningTable';
 import useEarlyWarningState from '../../hooks/useEarlyWarningState';
 import '../../styles/earlyWarning/EarlyWarningPage.css';
 
-const EarlyWarningPage = ({ onNavigate }) => {
+const EarlyWarningPage = ({ onNavigate, teacher = null }) => {
   const {
     filters,
     updateFilter,
     filteredStudents,
     allStudents,
     riskCounts,
-  } = useEarlyWarningState();
+  } = useEarlyWarningState(teacher);
 
   return (
     <div className="warning-page">
@@ -25,6 +25,7 @@ const EarlyWarningPage = ({ onNavigate }) => {
         <WarningFilter 
           filters={filters}
           onFilterChange={updateFilter}
+          teacher={teacher}
         />
       </div>
 

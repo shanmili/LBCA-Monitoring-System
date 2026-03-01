@@ -1,15 +1,56 @@
 import React from 'react';
 import FilterBar from '../../../components/common/FilterBar';
+import { schoolYears, studentGrades, studentSections } from '../../../data/mockData';
 
-const WarningFilter = ({ filters, onFilterChange }) => {
+const WarningFilter = ({ filters, onFilterChange, teacher = null }) => {
+  // Get available grades based on teacher assignment
+  const getAvailableGrades = () => {
+    if (teacher?.assignedGrades) {
+      return teacher.assignedGrades;
+    }
+    return studentGrades;
+  };
+
+  // Get available sections based on teacher assignment
+  const getAvailableSections = () => {
+    if (teacher?.assignedSections) {
+      return teacher.assignedSections;
+    }
+    return studentSections;
+  };
+
   const filterOptions = [
     {
       key: 'schoolYear',
       value: filters.schoolYear,
       options: [
-        { value: '2025-2026', label: 'SY 2025-2026' },
-        { value: '2024-2025', label: 'SY 2024-2025' },
-        { value: '2023-2024', label: 'SY 2023-2024' },
+        { value: 'All', label: 'All Years' },
+        ...schoolYears.map(year => ({ 
+          value: year, 
+          label: `SY ${year}` 
+        }))
+      ]
+    },
+    {
+      key: 'gradeLevel',
+      value: filters.gradeLevel,
+      options: [
+        { value: 'All', label: 'All Grades' },
+        ...getAvailableGrades().map(grade => ({ 
+          value: grade, 
+          label: grade 
+        }))
+      ]
+    },
+    {
+      key: 'section',
+      value: filters.section,
+      options: [
+        { value: 'All', label: 'All Sections' },
+        ...getAvailableSections().map(section => ({ 
+          value: section, 
+          label: section 
+        }))
       ]
     },
     {
@@ -20,16 +61,6 @@ const WarningFilter = ({ filters, onFilterChange }) => {
         { value: 'High', label: 'High' },
         { value: 'Medium', label: 'Medium' },
         { value: 'Low', label: 'Low' },
-      ]
-    },
-    {
-      key: 'section',
-      value: filters.section,
-      options: [
-        { value: 'All', label: 'All Sections' },
-        { value: 'Section A', label: 'Section A' },
-        { value: 'Section B', label: 'Section B' },
-        { value: 'Section C', label: 'Section C' },
       ]
     }
   ];

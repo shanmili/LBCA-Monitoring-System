@@ -1,31 +1,38 @@
 import React from 'react';
-import { Save } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import FilterBar from '../../../components/common/FilterBar';
+import { schoolYears, studentGrades, studentSections, paceSubjects } from '../../../data/mockData';
 
-const PaceFilter = ({ filters, onFilterChange, onSaveAll }) => {
+const PaceFilter = ({ filters, onFilterChange, onAddPaceRecord }) => {
   const filterOptions = [
     {
       key: 'schoolYear',
       value: filters.schoolYear,
-      options: [
-        { value: '2025-2026', label: 'SY 2025-2026' },
-        { value: '2024-2025', label: 'SY 2024-2025' },
-        { value: '2023-2024', label: 'SY 2023-2024' },
-      ]
+      options: schoolYears.map(year => ({ 
+        value: year, 
+        label: `SY ${year}` 
+      }))
+    },
+    {
+      key: 'gradeLevel',
+      value: filters.gradeLevel,
+      options: studentGrades.map(grade => ({ 
+        value: grade, 
+        label: grade 
+      }))
     },
     {
       key: 'section',
       value: filters.section,
-      options: [
-        { value: 'Section A', label: 'Section A' },
-        { value: 'Section B', label: 'Section B' },
-        { value: 'Section C', label: 'Section C' },
-      ]
+      options: studentSections.map(section => ({ 
+        value: section, 
+        label: section 
+      }))
     },
     {
       key: 'subject',
       value: filters.subject,
-      options: filters.subjectOptions.map(subject => ({
+      options: paceSubjects.map(subject => ({
         value: subject,
         label: subject
       }))
@@ -33,15 +40,11 @@ const PaceFilter = ({ filters, onFilterChange, onSaveAll }) => {
   ];
 
   return (
-    <div className="filter-with-button">
+    <div className="filter-section">
       <FilterBar 
         filters={filterOptions} 
         onFilterChange={onFilterChange} 
       />
-      <button className="save-all-btn" onClick={onSaveAll}>
-        <Save size={16} />
-        <span>Save All</span>
-      </button>
     </div>
   );
 };

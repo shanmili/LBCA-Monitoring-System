@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
-import { studentSections, studentGrades, defaultSubjects, emptyStudentForm } from '../data/mockData';
+import { studentSections, studentGrades } from '../data/mockData';
+
+const emptyStudentForm = {
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  dateOfBirth: '',
+  gender: '',
+  address: '',
+  guardianFirstName: '',
+  guardianMiddleName: '',
+  guardianLastName: '',
+  guardianContact: '',
+  guardianRelationship: '',
+  gradeLevel: '',
+  section: '',
+};
 
 export default function useStudentFormState({ isOpen, student, onSave }) {
   const isEdit = Boolean(student);
@@ -7,29 +23,22 @@ export default function useStudentFormState({ isOpen, student, onSave }) {
   const buildFormData = () => {
     if (student) {
       return {
-        name: student.name || '',
-        section: student.section || 'Section A',
-        grade: student.grade || 'Grade 10',
-        pacePercent: student.pacePercent ?? '',
-        attendance: student.attendance ?? '',
-        status: student.status || 'On Track',
-        riskLevel: student.riskLevel || 'Low',
-        factor: student.factor || 'None',
-        secondaryRisk: student.secondaryRisk || 'None',
-        suggestedAction: student.suggestedAction || 'None',
-        subjects: (student.subjects || defaultSubjects).map(s => ({ ...s })),
-        attendanceSummary: {
-          present: student.attendanceSummary?.present ?? '',
-          late: student.attendanceSummary?.late ?? '',
-          absent: student.attendanceSummary?.absent ?? '',
-        },
+        firstName: student.firstName || '',
+        middleName: student.middleName || '',
+        lastName: student.lastName || '',
+        dateOfBirth: student.dateOfBirth || '',
+        gender: student.gender || '',
+        address: student.address || '',
+        guardianFirstName: student.guardianFirstName || '',
+        guardianMiddleName: student.guardianMiddleName || '',
+        guardianLastName: student.guardianLastName || '',
+        guardianContact: student.guardianContact || '',
+        guardianRelationship: student.guardianRelationship || '',
+        gradeLevel: student.gradeLevel || '',
+        section: student.section || '',
       };
     }
-    return {
-      ...emptyStudentForm,
-      subjects: emptyStudentForm.subjects.map(s => ({ ...s })),
-      attendanceSummary: { ...emptyStudentForm.attendanceSummary },
-    };
+    return { ...emptyStudentForm };
   };
 
   const [formData, setFormData] = useState(buildFormData);
@@ -44,28 +53,23 @@ export default function useStudentFormState({ isOpen, student, onSave }) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubjectChange = (index, field, value) => {
-    setFormData(prev => {
-      const updated = prev.subjects.map((s, i) =>
-        i === index
-          ? { ...s, [field]: field === 'name' || field === 'status' ? value : Number(value) }
-          : s
-      );
-      return { ...prev, subjects: updated };
-    });
-  };
-
-  const handleAttendanceChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      attendanceSummary: { ...prev.attendanceSummary, [field]: value },
-    }));
+  const handleGuardianChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [`guardian${field.charAt(0).toUpperCase() + field.slice(1)}`]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const computed = computeStudent(formData);
-    onSave(computed);
+    // Combine name fields for display if needed
+    const fullName = `${formData.lastName}, ${formData.firstName}${formData.middleName ? ' ' + formData.middleName : ''}`;
+    const guardianFullName = `${formData.guardianLastName}, ${formData.guardianFirstName}${formData.guardianMiddleName ? ' ' + formData.guardianMiddleName : ''}`;
+    
+    const studentData = {
+      ...formData,
+      name: fullName,
+      guardianName: guardianFullName,
+      id: student?.id || `S${Date.now()}`,
+    };
+    onSave(studentData);
   };
 
   return {
@@ -74,8 +78,7 @@ export default function useStudentFormState({ isOpen, student, onSave }) {
     studentSections,
     studentGrades,
     handleChange,
-    handleSubjectChange,
-    handleAttendanceChange,
+    handleGuardianChange,
     handleSubmit,
   };
 }

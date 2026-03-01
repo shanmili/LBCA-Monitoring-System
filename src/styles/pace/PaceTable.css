@@ -6,9 +6,49 @@
   overflow: hidden;
 }
 
+.pace-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.pace-table-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.add-pace-current-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-pace-current-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.pace-table-wrapper {
+  overflow-x: auto;
+}
+
 .pace-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
 .pace-table th {
@@ -23,8 +63,16 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.pace-table th.pace-record-header {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-size: 0.8rem;
+  text-align: center;
+  border-left: 1px solid var(--border-color);
+}
+
 .pace-table td {
-  padding: 1rem;
+  padding: 0.75rem;
   font-size: 0.875rem;
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-light);
@@ -37,69 +85,15 @@
 .student-name {
   font-weight: 500;
   color: var(--text-primary);
-}
-
-.pace-number {
-  color: var(--primary);
-  font-weight: 500;
-}
-
-/* Checkbox */
-.checkbox-container {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-}
-
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
+  position: sticky;
   left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 4px;
-  transition: all 0.2s;
+  background-color: inherit;
+  min-width: 180px;
 }
 
-.checkbox-container:hover input ~ .checkmark {
-  border-color: var(--primary);
-}
-
-.checkbox-container input:checked ~ .checkmark {
-  background-color: var(--success);
-  border-color: var(--success);
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.checkbox-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-container .checkmark:after {
-  left: 6px;
-  top: 2px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.score-cell {
+  text-align: center;
+  min-width: 100px;
 }
 
 /* Score Input */
@@ -112,6 +106,7 @@
   text-align: center;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  transition: all 0.2s;
 }
 
 .score-input:focus {
@@ -120,30 +115,29 @@
   box-shadow: 0 0 0 3px rgba(31, 71, 136, 0.1);
 }
 
-.score-input:disabled {
-  background-color: var(--bg-tertiary);
-  color: var(--text-tertiary);
-  cursor: not-allowed;
+.score-input:hover {
+  border-color: var(--text-muted);
 }
 
-/* Save Button */
-.save-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.375rem 0.75rem;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* Table Footer */
+.pace-table-footer {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  text-align: right;
 }
 
-.save-btn:hover {
-  background-color: var(--primary-hover);
+.auto-save-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.auto-save-note::before {
+  content: "✓ ";
+  color: var(--success);
+  font-weight: bold;
 }
 
 /* No Data */
@@ -177,11 +171,18 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .pace-table-container {
+  .pace-table-wrapper {
     overflow-x: auto;
   }
   
-  .pace-table {
-    min-width: 700px;
+  .student-name {
+    position: sticky;
+    left: 0;
+    background-color: var(--bg-primary);
+    z-index: 1;
+  }
+  
+  .pace-table tbody tr:hover .student-name {
+    background-color: var(--bg-secondary);
   }
 }

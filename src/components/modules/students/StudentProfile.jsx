@@ -18,8 +18,7 @@ const TAB_ICONS = {
 };
 
 const StudentProfile = ({ onNavigate }) => {
-  const { studentId } = useParams(); // Get ID from URL
-  console.log('StudentProfile loaded with ID:', studentId); // Debug log
+  const { studentId } = useParams();
 
   const {
     TABS,
@@ -29,8 +28,6 @@ const StudentProfile = ({ onNavigate }) => {
     handleSaveEdit,
     handlePrint,
   } = useStudentProfileState(studentId);
-
-  console.log('Student data:', student); // Debug log
 
   if (!student) {
     return (
@@ -49,6 +46,18 @@ const StudentProfile = ({ onNavigate }) => {
       </div>
     );
   }
+
+  // Helper function to get full name
+  const getFullName = () => {
+    const middleInitial = student.middleName ? ` ${student.middleName.charAt(0)}.` : '';
+    return `${student.lastName}, ${student.firstName}${middleInitial}`;
+  };
+
+  // Helper function to get guardian full name
+  const getGuardianFullName = () => {
+    const middleInitial = student.guardianMiddleName ? ` ${student.guardianMiddleName.charAt(0)}.` : '';
+    return `${student.guardianLastName}, ${student.guardianFirstName}${middleInitial}`;
+  };
 
   const renderTab = () => {
     switch (activeTab) {
@@ -93,8 +102,8 @@ const StudentProfile = ({ onNavigate }) => {
             <User size={40} />
           </div>
           <div className="profile-details">
-            <h2>{student.name}</h2>
-            <p>{student.section} • {student.grade} • ID: {student.id}</p>
+            <h2>{getFullName()}</h2>
+            <p>{student.gradeLevel} • {student.section} • ID: {student.id}</p>
           </div>
           <div className="profile-status">
             <RiskBadge level={student.riskLevel} />

@@ -81,12 +81,31 @@ export const attendanceData = [
   { name: 'Absent', value: 4, color: '#EF4444' },   
 ];
 
-// Full Students Data with subjects, PACE info, risk details (unified list)
+// School Years
+export const schoolYears = ['2025-2026', '2024-2025', '2023-2024'];
+
+// Full Students Data with new structure
 export const studentsData = [
   { 
-    id: 'S001', name: "Alvarez, Mateo", section: "Section A", grade: "Grade 10",
-    pacePercent: 52, attendance: 88, status: "Behind",
-    riskLevel: "High", factor: "Low PACE completion",
+    id: 'S001',
+    firstName: 'Mateo',
+    middleName: 'D',
+    lastName: 'Alvarez',
+    dateOfBirth: '2008-05-15',
+    gender: 'Male',
+    address: '123 Mabini St., Davao City',
+    guardianFirstName: 'Roberto',
+    guardianMiddleName: 'M',
+    guardianLastName: 'Alvarez',
+    guardianContact: '09171234567',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 10',
+    section: 'Section A',
+    status: 'Behind',
+    pacePercent: 52, 
+    attendance: 88,
+    riskLevel: "High", 
+    factor: "Low PACE completion",
     secondaryRisk: "Declining PACE test trend",
     suggestedAction: "Schedule intervention session",
     subjects: [
@@ -103,9 +122,25 @@ export const studentsData = [
     ]
   },
   { 
-    id: 'S002', name: "Cruz, Sophia", section: "Section B", grade: "Grade 10",
-    pacePercent: 65, attendance: 91, status: "Behind",
-    riskLevel: "Medium", factor: "Pending PACE modules",
+    id: 'S002',
+    firstName: 'Sophia',
+    middleName: 'R',
+    lastName: 'Cruz',
+    dateOfBirth: '2008-08-22',
+    gender: 'Female',
+    address: '456 Rizal St., Davao City',
+    guardianFirstName: 'Maria',
+    guardianMiddleName: 'R',
+    guardianLastName: 'Cruz',
+    guardianContact: '09179876543',
+    guardianRelationship: 'Mother',
+    gradeLevel: 'Grade 10',
+    section: 'Section B',
+    status: 'Behind',
+    pacePercent: 65, 
+    attendance: 91,
+    riskLevel: "Medium", 
+    factor: "Pending PACE modules",
     secondaryRisk: "Borderline attendance",
     suggestedAction: "Monitor progress next week",
     subjects: [
@@ -121,9 +156,25 @@ export const studentsData = [
     ]
   },
   { 
-    id: 'S003', name: "Santos, Gabriel", section: "Section B", grade: "Grade 10",
-    pacePercent: 82, attendance: 95, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S003',
+    firstName: 'Gabriel',
+    middleName: 'S',
+    lastName: 'Santos',
+    dateOfBirth: '2008-03-10',
+    gender: 'Male',
+    address: '789 Bonifacio St., Davao City',
+    guardianFirstName: 'Jose',
+    guardianMiddleName: 'S',
+    guardianLastName: 'Santos',
+    guardianContact: '09171239876',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 10',
+    section: 'Section B',
+    status: 'On Track',
+    pacePercent: 82, 
+    attendance: 95,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -136,9 +187,25 @@ export const studentsData = [
     riskDetails: []
   },
   { 
-    id: 'S004', name: "Mendoza, Karl", section: "Section B", grade: "Grade 10",
-    pacePercent: 60, attendance: 70, status: "Behind",
-    riskLevel: "High", factor: "Frequent absences",
+    id: 'S004',
+    firstName: 'Karl',
+    middleName: 'M',
+    lastName: 'Mendoza',
+    dateOfBirth: '2008-11-30',
+    gender: 'Male',
+    address: '101 Quezon St., Davao City',
+    guardianFirstName: 'Elena',
+    guardianMiddleName: 'M',
+    guardianLastName: 'Mendoza',
+    guardianContact: '09175432109',
+    guardianRelationship: 'Mother',
+    gradeLevel: 'Grade 10',
+    section: 'Section B',
+    status: 'Behind',
+    pacePercent: 60, 
+    attendance: 70,
+    riskLevel: "High", 
+    factor: "Frequent absences",
     secondaryRisk: "Missed tests",
     suggestedAction: "Parent-teacher conference",
     subjects: [
@@ -155,9 +222,25 @@ export const studentsData = [
     ]
   },
   { 
-    id: 'S005', name: "Reyes, Aisha", section: "Section C", grade: "Grade 11",
-    pacePercent: 90, attendance: 98, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S005',
+    firstName: 'Aisha',
+    middleName: 'D',
+    lastName: 'Reyes',
+    dateOfBirth: '2007-05-18',
+    gender: 'Female',
+    address: '202 Lopez Jaena St., Davao City',
+    guardianFirstName: 'Ramon',
+    guardianMiddleName: 'D',
+    guardianLastName: 'Reyes',
+    guardianContact: '09176543210',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 11',
+    section: 'Section C',
+    status: 'On Track',
+    pacePercent: 90, 
+    attendance: 98,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -170,9 +253,25 @@ export const studentsData = [
     riskDetails: []
   },
   { 
-    id: 'S006', name: "Bautista, Luis", section: "Section C", grade: "Grade 11",
-    pacePercent: 44, attendance: 80, status: "Behind",
-    riskLevel: "High", factor: "Low PACE completion + absences",
+    id: 'S006',
+    firstName: 'Luis',
+    middleName: 'G',
+    lastName: 'Bautista',
+    dateOfBirth: '2007-09-25',
+    gender: 'Male',
+    address: '303 Mabuhay St., Davao City',
+    guardianFirstName: 'Carmen',
+    guardianMiddleName: 'G',
+    guardianLastName: 'Bautista',
+    guardianContact: '09174321098',
+    guardianRelationship: 'Mother',
+    gradeLevel: 'Grade 11',
+    section: 'Section C',
+    status: 'Behind',
+    pacePercent: 44, 
+    attendance: 80,
+    riskLevel: "High", 
+    factor: "Low PACE completion + absences",
     secondaryRisk: "Low test scores across subjects",
     suggestedAction: "Immediate intervention required",
     subjects: [
@@ -189,9 +288,25 @@ export const studentsData = [
     ]
   },
   {
-    id: 'S007', name: "de Gala, Shanmae Leigh P.", section: "Section A", grade: "Grade 10",
-    pacePercent: 85, attendance: 96, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S007',
+    firstName: 'Shanmae Leigh',
+    middleName: 'P',
+    lastName: 'de Gala',
+    dateOfBirth: '2008-02-14',
+    gender: 'Female',
+    address: '404 San Pedro St., Davao City',
+    guardianFirstName: 'Ricardo',
+    guardianMiddleName: 'P',
+    guardianLastName: 'de Gala',
+    guardianContact: '09177654321',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 10',
+    section: 'Section A',
+    status: 'On Track',
+    pacePercent: 85, 
+    attendance: 96,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -204,9 +319,25 @@ export const studentsData = [
     riskDetails: []
   },
   {
-    id: 'S008', name: "Maco, Sef Rowinston M.", section: "Section B", grade: "Grade 10",
-    pacePercent: 78, attendance: 93, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S008',
+    firstName: 'Sef Rowinston',
+    middleName: 'M',
+    lastName: 'Maco',
+    dateOfBirth: '2008-07-08',
+    gender: 'Male',
+    address: '505 Claveria St., Davao City',
+    guardianFirstName: 'Rosario',
+    guardianMiddleName: 'M',
+    guardianLastName: 'Maco',
+    guardianContact: '09178899001',
+    guardianRelationship: 'Mother',
+    gradeLevel: 'Grade 10',
+    section: 'Section B',
+    status: 'On Track',
+    pacePercent: 78, 
+    attendance: 93,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -219,9 +350,25 @@ export const studentsData = [
     riskDetails: []
   },
   {
-    id: 'S009', name: "Evasco, Keybird N.", section: "Section B", grade: "Grade 10",
-    pacePercent: 88, attendance: 97, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S009',
+    firstName: 'Keybird',
+    middleName: 'N',
+    lastName: 'Evasco',
+    dateOfBirth: '2008-12-03',
+    gender: 'Male',
+    address: '606 Ramon Magsaysay St., Davao City',
+    guardianFirstName: 'Rogelio',
+    guardianMiddleName: 'N',
+    guardianLastName: 'Evasco',
+    guardianContact: '09171223344',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 10',
+    section: 'Section B',
+    status: 'On Track',
+    pacePercent: 88, 
+    attendance: 97,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -234,9 +381,25 @@ export const studentsData = [
     riskDetails: []
   },
   {
-    id: 'S010', name: "Alion, Norhaifah", section: "Section C", grade: "Grade 11",
-    pacePercent: 83, attendance: 95, status: "On Track",
-    riskLevel: "Low", factor: "None",
+    id: 'S010',
+    firstName: 'Norhaifah',
+    middleName: 'P',
+    lastName: 'Alion',
+    dateOfBirth: '2007-04-19',
+    gender: 'Female',
+    address: '707 San Jose St., Davao City',
+    guardianFirstName: 'Abdullah',
+    guardianMiddleName: 'P',
+    guardianLastName: 'Alion',
+    guardianContact: '09175566778',
+    guardianRelationship: 'Father',
+    gradeLevel: 'Grade 11',
+    section: 'Section C',
+    status: 'On Track',
+    pacePercent: 83, 
+    attendance: 95,
+    riskLevel: "Low", 
+    factor: "None",
     secondaryRisk: "None",
     suggestedAction: "None",
     subjects: [
@@ -253,7 +416,7 @@ export const studentsData = [
 // Derived: At-Risk Students (students with risk level High or Medium)
 export const atRiskStudents = studentsData.filter(s => s.riskLevel === 'High' || s.riskLevel === 'Medium');
 
-// Recent Activity Feed (for Right Sidebar) - PACE focused
+// Recent Activity Feed
 export const activityFeed = [
   { id: 1, type: 'alert', text: "New At-Risk alert: Mateo Alvarez below 40% PACE", time: "10 mins ago" },
   { id: 2, type: 'pace', text: "PACE score updated for Section A — Math", time: "1 hour ago" },
@@ -262,7 +425,7 @@ export const activityFeed = [
   { id: 5, type: 'system', text: "New Quarter 1 goals published", time: "5 hours ago" },
 ];
 
-// PACE Encoding Data (for PACE encoding page)
+// PACE Encoding Data
 export const paceSubjects = ['Math', 'English', 'Science', 'Filipino'];
 
 export const paceEncodingData = {
@@ -314,61 +477,62 @@ export const paceEncodingData = {
   },
 };
 
-// Teacher Accounts Data - Simple accounts without personal info
+// Teacher Accounts Data with assignments
 export const teachersData = [
   {
     id: 'T001',
-    username: 'teacher1',
-    password: 'temp123', // Temporary password
+    username: 'teacher_juan',
+    password: 'temp123',
     status: 'active',
     lastLogin: '2024-02-26 08:30 AM',
     createdAt: '2023-06-15',
-    hasCustomized: false // Teacher hasn't customized profile yet
+    hasCustomized: false,
+    assignedGrades: ['Grade 7', 'Grade 8'],
+    assignedSections: ['Section A', 'Section B']
   },
   {
     id: 'T002',
-    username: 'Juan Marcos Mendoza',
+    username: 'teacher_maria',
     password: 'temp123',
     status: 'active',
     lastLogin: '2024-02-26 09:15 AM',
     createdAt: '2023-06-15',
-    hasCustomized: true // Teacher has already customized
+    hasCustomized: true,
+    assignedGrades: ['Grade 9', 'Grade 10'],
+    assignedSections: ['Section B', 'Section C']
   },
   {
     id: 'T003',
-    username: 'teacher3',
+    username: 'teacher_ana',
     password: 'temp123',
     status: 'active',
     lastLogin: '2024-02-25 02:30 PM',
     createdAt: '2023-08-20',
-    hasCustomized: false
+    hasCustomized: false,
+    assignedGrades: ['Grade 7', 'Grade 8'],
+    assignedSections: ['Section A', 'Section C']
   },
   {
     id: 'T004',
-    username: 'teacher4',
+    username: 'teacher_carlos',
     password: 'temp123',
-    status: 'active',
+    status: 'inactive',
     lastLogin: '2024-02-20 11:45 AM',
     createdAt: '2023-09-10',
-    hasCustomized: false
+    hasCustomized: false,
+    assignedGrades: ['Grade 9', 'Grade 10'],
+    assignedSections: ['Section A', 'Section B']
   },
   {
     id: 'T005',
-    username: 'Michelle Nepomuceno Garcia',
+    username: 'teacher_lisa',
     password: 'temp123',
     status: 'active',
     lastLogin: '2024-02-26 10:00 AM',
     createdAt: '2023-07-05',
-    hasCustomized: true
-  },
-  {
-    id: 'T006',
-    username: 'teacher6',
-    password: 'temp123',
-    status: 'active',
-    lastLogin: '2024-02-15 01:20 PM',
-    createdAt: '2023-10-12',
-    hasCustomized: false
+    hasCustomized: true,
+    assignedGrades: ['Grade 7', 'Grade 8', 'Grade 9'],
+    assignedSections: ['Section B', 'Section C']
   }
 ];
 
@@ -377,24 +541,5 @@ export const accountStatuses = ['active', 'inactive'];
 
 // Student Form Constants
 export const studentSections = ['Section A', 'Section B', 'Section C'];
-export const studentGrades = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
-export const defaultSubjects = [
-  { name: 'Math', completed: 0, total: 6, testScore: 0, status: 'Behind' },
-  { name: 'English', completed: 0, total: 6, testScore: 0, status: 'Behind' },
-  { name: 'Science', completed: 0, total: 6, testScore: 0, status: 'Behind' },
-  { name: 'Filipino', completed: 0, total: 6, testScore: 0, status: 'Behind' },
-];
-export const emptyStudentForm = {
-  name: '',
-  section: 'Section A',
-  grade: 'Grade 10',
-  pacePercent: '',
-  attendance: '',
-  status: 'On Track',
-  riskLevel: 'Low',
-  factor: 'None',
-  secondaryRisk: 'None',
-  suggestedAction: 'None',
-  subjects: defaultSubjects.map(s => ({ ...s })),
-  attendanceSummary: { present: '', late: '', absent: '' },
-};
+export const studentGrades = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10'];
+export const studentStatuses = ['On Track', 'Behind', 'At Risk'];

@@ -3,6 +3,18 @@ import RiskBadge from '../../../components/common/RiskBadge';
 import "../../../styles/dashboard/AtRiskTable.css";
 
 const AtRiskTable = ({ students, onNavigate }) => {
+  // Helper function to get full name
+  const getFullName = (student) => {
+    if (student.name) {
+      // Old data structure - already has name
+      return student.name;
+    }
+    
+    // New data structure - construct from firstName, middleName, lastName
+    const middleInitial = student.middleName ? ` ${student.middleName.charAt(0)}.` : '';
+    return `${student.lastName}, ${student.firstName}${middleInitial}`;
+  };
+
   return (
     <div className="table-card">
       <div className="table-header">
@@ -30,7 +42,7 @@ const AtRiskTable = ({ students, onNavigate }) => {
           <tbody>
             {students.map(student => (
               <tr key={student.id}>
-                <td className="student-name">{student.name}</td>
+                <td className="student-name">{getFullName(student)}</td>
                 <td>{student.section}</td>
                 <td className="pace-cell">{student.pacePercent}%</td>
                 <td><RiskBadge level={student.riskLevel} /></td>

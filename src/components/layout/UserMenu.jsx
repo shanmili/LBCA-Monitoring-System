@@ -45,7 +45,7 @@ const UserMenu = ({ onLogout, onNavigate, adminPhoto, userRole = 'admin' }) => {
       {isOpen && (
         <div className="user-dropdown">
           <div className="dropdown-header">
-            <p>Signed in as <strong>{userRole === 'admin' ? 'Admin User' : 'Teacher User'}</strong></p>
+            <p>Signed in as <strong>{userRole === 'admin' ? 'Admin' : 'Teacher'}</strong></p>
           </div>
           
           <div className="dropdown-divider" />

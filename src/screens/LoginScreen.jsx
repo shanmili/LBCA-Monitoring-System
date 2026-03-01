@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import '../styles/Login.css';
 
 const LoginScreen = ({ onLogin, error, isLoading }) => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState(''); // Can be email or username
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email, password);
+    onLogin(identifier, password);
   };
 
   return (
@@ -29,13 +29,13 @@ const LoginScreen = ({ onLogin, error, isLoading }) => {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email Address</label>
+            <label className="form-label">Email or Username</label>
             <input
-              type="email"
+              type="text" // Changed from "email" to "text"
               className="form-input"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email or username"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               required
               disabled={isLoading}
             />

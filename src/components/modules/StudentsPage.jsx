@@ -5,7 +5,7 @@ import StudentFormModal from './students/StudentFormModal';
 import useStudentsPageState from '../../hooks/useStudentsPageState';
 import '../../styles/students/StudentsPage.css';
 
-const StudentsPage = ({ onNavigate }) => {
+const StudentsPage = ({ onNavigate, teacher = null }) => {
   const {
     searchTerm,
     setSearchTerm,
@@ -15,7 +15,7 @@ const StudentsPage = ({ onNavigate }) => {
     students,
     getStatusBadgeClass,
     handleAddStudent,
-  } = useStudentsPageState();
+  } = useStudentsPageState(teacher);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,6 +33,7 @@ const StudentsPage = ({ onNavigate }) => {
           <StudentFilter 
             filters={filters}
             onFilterChange={updateFilter}
+            teacher={teacher}
           />
           <button className="add-student-btn" onClick={() => setIsModalOpen(true)}>
             + Add Student

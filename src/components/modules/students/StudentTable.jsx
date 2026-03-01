@@ -2,14 +2,23 @@ import React from 'react';
 import '../../../styles/students/StudentTable.css';
 
 const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {
+  // Helper function to get full name
+  const getFullName = (student) => {
+    const middleInitial = student.middleName ? ` ${student.middleName.charAt(0)}.` : '';
+    return `${student.lastName}, ${student.firstName}${middleInitial}`;
+  };
+
   return (
     <div className="students-table-container">
       <table className="students-list-table">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Student Name</th>
+            <th>Grade</th>
             <th>Section</th>
+            <th>Guardian</th>
+            <th>Contact</th>
             <th>PACE %</th>
             <th>Attendance</th>
             <th>Status</th>
@@ -21,8 +30,11 @@ const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {
             students.map(student => (
               <tr key={student.id}>
                 <td>{student.id}</td>
-                <td className="student-name-cell">{student.name}</td>
+                <td className="student-name-cell">{getFullName(student)}</td>
+                <td>{student.gradeLevel}</td>
                 <td>{student.section}</td>
+                <td>{student.guardianLastName}</td>
+                <td>{student.guardianContact}</td>
                 <td>{student.pacePercent}%</td>
                 <td>{student.attendance}%</td>
                 <td>
@@ -42,7 +54,7 @@ const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="no-results">No students found</td>
+              <td colSpan="10" className="no-results">No students found</td>
             </tr>
           )}
         </tbody>

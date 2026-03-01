@@ -3,6 +3,18 @@ import { Bell } from 'lucide-react';
 import RiskBadge from '../../../components/common/RiskBadge';
 
 const WarningTable = ({ students, onNavigate }) => {
+  // Helper function to get full name
+  const getFullName = (student) => {
+    if (student.name) {
+      // Old data structure - already has name
+      return student.name;
+    }
+    
+    // New data structure - construct from firstName, middleName, lastName
+    const middleInitial = student.middleName ? ` ${student.middleName.charAt(0)}.` : '';
+    return `${student.lastName}, ${student.firstName}${middleInitial}`;
+  };
+
   if (!students || students.length === 0) {
     return (
       <div className="no-alerts">
@@ -31,7 +43,7 @@ const WarningTable = ({ students, onNavigate }) => {
           {students.map(student => (
             <tr key={student.id} className={`risk-row ${student.riskLevel.toLowerCase()}`}>
               <td>{student.id}</td>
-              <td className="student-name">{student.name}</td>
+              <td className="student-name">{getFullName(student)}</td>
               <td>{student.section}</td>
               <td className="pace-cell">{student.pacePercent}%</td>
               <td>{student.attendance}%</td>

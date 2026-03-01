@@ -1,3 +1,7 @@
+.pace-page {
+  padding: 1.5rem;
+}
+
 .pace-header-row {
   display: flex;
   align-items: center;
@@ -32,17 +36,18 @@
   font-size: 0.875rem;
 }
 
-.filter-with-button {
+.filter-section {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.save-all-btn {
+.add-pace-main-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.90rem 1rem;
+  padding: .95rem;
   background-color: var(--primary);
   color: white;
   border: none;
@@ -54,18 +59,8 @@
   transition: background-color 0.2s;
 }
 
-.save-all-btn:hover {
-  background-color: var(--success-text);
-}
-
-.save-message {
-  margin-bottom: 1rem;
-  padding: 0.75rem 1rem;
-  background-color: var(--success-bg);
-  color: var(--success-text);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  border: 1px solid var(--success);
+.add-pace-main-btn:hover {
+  background-color: var(--primary-hover);
 }
 
 /* Responsive */
@@ -79,12 +74,12 @@
     align-items: flex-start;
   }
   
-  .filter-with-button {
+  .filter-section {
     width: 100%;
     flex-direction: column;
   }
   
-  .save-all-btn {
+  .add-pace-main-btn {
     width: 100%;
     justify-content: center;
   }

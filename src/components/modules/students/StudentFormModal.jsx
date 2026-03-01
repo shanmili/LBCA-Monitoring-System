@@ -10,8 +10,7 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
     studentSections,
     studentGrades,
     handleChange,
-    handleSubjectChange,
-    handleAttendanceChange,
+    handleGuardianChange,
     handleSubmit,
   } = useStudentFormState({ isOpen, student, onSave });
 
@@ -25,67 +24,162 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
           <button className="modal-close-btn" onClick={onClose}><X size={20} /></button>
         </div>
         <form onSubmit={handleSubmit} className="modal-form">
-          {/* Student Information */}
+          {/* Student Personal Information */}
           <div className="form-section">
-            <h4 className="form-section-title">Student Information</h4>
+            <h4 className="form-section-title">Student Personal Information</h4>
             <div className="form-grid">
               <div className="form-group">
-                <label>Full Name <span className="required">*</span></label>
-                <input type="text" required placeholder="e.g. Dela Cruz, Juan" value={formData.name} onChange={e => handleChange('name', e.target.value)} />
+                <label>First Name <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="First name" 
+                  value={formData.firstName} 
+                  onChange={e => handleChange('firstName', e.target.value)} 
+                />
               </div>
               <div className="form-group">
-                <label>Section <span className="required">*</span></label>
-                <select value={formData.section} onChange={e => handleChange('section', e.target.value)}>
-                  {studentSections.map(s => <option key={s} value={s}>{s}</option>)}
+                <label>Middle Name</label>
+                <input 
+                  type="text" 
+                  placeholder="Middle name (optional)" 
+                  value={formData.middleName} 
+                  onChange={e => handleChange('middleName', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Last Name <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="Last name" 
+                  value={formData.lastName} 
+                  onChange={e => handleChange('lastName', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Date of Birth <span className="required">*</span></label>
+                <input 
+                  type="date" 
+                  required 
+                  value={formData.dateOfBirth} 
+                  onChange={e => handleChange('dateOfBirth', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Gender <span className="required">*</span></label>
+                <select 
+                  required 
+                  value={formData.gender} 
+                  onChange={e => handleChange('gender', e.target.value)}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
+              <div className="form-group field-full">
+                <label>Address <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="Complete address" 
+                  value={formData.address} 
+                  onChange={e => handleChange('address', e.target.value)} 
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Guardian Information */}
+          <div className="form-section">
+            <h4 className="form-section-title">Guardian Information</h4>
+            <div className="form-grid">
+              <div className="form-group">
+                <label>Guardian First Name <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="First name" 
+                  value={formData.guardianFirstName} 
+                  onChange={e => handleGuardianChange('firstName', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Guardian Middle Name</label>
+                <input 
+                  type="text" 
+                  placeholder="Middle name (optional)" 
+                  value={formData.guardianMiddleName} 
+                  onChange={e => handleGuardianChange('middleName', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Guardian Last Name <span className="required">*</span></label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="Last name" 
+                  value={formData.guardianLastName} 
+                  onChange={e => handleGuardianChange('lastName', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Contact Number <span className="required">*</span></label>
+                <input 
+                  type="tel" 
+                  required 
+                  placeholder="+63 XXX XXX XXXX" 
+                  value={formData.guardianContact} 
+                  onChange={e => handleGuardianChange('contact', e.target.value)} 
+                />
+              </div>
+              <div className="form-group">
+                <label>Relationship <span className="required">*</span></label>
+                <select 
+                  required 
+                  value={formData.guardianRelationship} 
+                  onChange={e => handleGuardianChange('relationship', e.target.value)}
+                >
+                  <option value="">Select Relationship</option>
+                  <option value="Father">Father</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Guardian">Legal Guardian</option>
+                  <option value="Grandparent">Grandparent</option>
+                  <option value="Sibling">Sibling</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Enrollment Information */}
+          <div className="form-section">
+            <h4 className="form-section-title">Enrollment Information</h4>
+            <div className="form-grid">
               <div className="form-group">
                 <label>Grade Level <span className="required">*</span></label>
-                <select value={formData.grade} onChange={e => handleChange('grade', e.target.value)}>
+                <select 
+                  required 
+                  value={formData.gradeLevel} 
+                  onChange={e => handleChange('gradeLevel', e.target.value)}
+                >
+                  <option value="">Select Grade</option>
                   {studentGrades.map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
               </div>
-            </div>
-          </div>
-
-          {/* Attendance Summary */}
-          <div className="form-section">
-            <h4 className="form-section-title">Attendance Summary (Days)</h4>
-            <div className="form-grid three-col">
               <div className="form-group">
-                <label>Present</label>
-                <input type="number" min="0" placeholder="0" value={formData.attendanceSummary.present} onChange={e => handleAttendanceChange('present', e.target.value)} />
+                <label>Section <span className="required">*</span></label>
+                <select 
+                  required 
+                  value={formData.section} 
+                  onChange={e => handleChange('section', e.target.value)}
+                >
+                  <option value="">Select Section</option>
+                  {studentSections.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
               </div>
-              <div className="form-group">
-                <label>Late</label>
-                <input type="number" min="0" placeholder="0" value={formData.attendanceSummary.late} onChange={e => handleAttendanceChange('late', e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Absent</label>
-                <input type="number" min="0" placeholder="0" value={formData.attendanceSummary.absent} onChange={e => handleAttendanceChange('absent', e.target.value)} />
-              </div>
-            </div>
-            <p className="form-helper-text">PACE %, Attendance %, Status, Risk Level, and Risk Factors are automatically calculated from the data you enter.</p>
-          </div>
-
-          {/* Subjects */}
-          <div className="form-section">
-            <h4 className="form-section-title">PACE Subjects</h4>
-            <div className="subjects-form-table">
-              <div className="subjects-form-header">
-                <span>Subject</span>
-                <span>Completed</span>
-                <span>Total PACEs</span>
-                <span>Test Score</span>
-              </div>
-              {formData.subjects.map((subj, i) => (
-                <div className="subjects-form-row four-col" key={i}>
-                  <input type="text" value={subj.name} onChange={e => handleSubjectChange(i, 'name', e.target.value)} />
-                  <input type="number" min="0" value={subj.completed} onChange={e => handleSubjectChange(i, 'completed', e.target.value)} />
-                  <input type="number" min="0" value={subj.total} onChange={e => handleSubjectChange(i, 'total', e.target.value)} />
-                  <input type="number" min="0" max="100" value={subj.testScore} onChange={e => handleSubjectChange(i, 'testScore', e.target.value)} />
-                </div>
-              ))}
             </div>
           </div>
 

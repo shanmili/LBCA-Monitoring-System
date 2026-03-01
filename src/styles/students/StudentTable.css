@@ -1,7 +1,7 @@
 .students-table-container {
   background-color: var(--bg-primary);
   border-radius: 0.75rem;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
   overflow: hidden;
 }
@@ -39,6 +39,7 @@
   color: var(--text-primary);
 }
 
+/* Status Badge */
 .status-badge {
   display: inline-block;
   padding: 0.25rem 0.75rem;
@@ -57,6 +58,7 @@
   color: var(--success-text);
 }
 
+/* View Button */
 .view-button {
   padding: 0.375rem 0.75rem;
   background-color: var(--primary);
@@ -85,6 +87,6 @@
   }
   
   .students-list-table {
-    min-width: 800px;
+    min-width: 1000px; /* Increased for new columns */
   }
 }

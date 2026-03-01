@@ -1,15 +1,29 @@
 import React, { createContext, useContext, useState } from 'react';
 import { studentsData } from '../data/mockData.jsx';
 
+// Helper function to get student name from different data structures
+function getStudentName(student) {
+  if (student.name) {
+    // Old structure: "Last, First"
+    const nameParts = student.name.split(',');
+    const firstName = nameParts[1]?.trim() || '';
+    const lastName = nameParts[0]?.trim() || '';
+    return `${firstName} ${lastName}`.trim() || student.name;
+  } else {
+    // New structure: firstName, lastName, middleName
+    const firstName = student.firstName || '';
+    const lastName = student.lastName || '';
+    return `${firstName} ${lastName}`.trim() || student.id;
+  }
+}
+
 // --- Generate system notifications from student data ---
 function generateSystemNotifications(students) {
   const notifications = [];
   let id = 1;
 
   students.forEach((student) => {
-    const firstName = student.name.split(',')[1]?.trim() || student.name;
-    const lastName = student.name.split(',')[0]?.trim();
-    const shortName = `${firstName} ${lastName}`;
+    const fullName = getStudentName(student);
 
     if (student.pacePercent < 40) {
       notifications.push({
@@ -17,8 +31,8 @@ function generateSystemNotifications(students) {
         type: 'at-risk',
         severity: 'high',
         title: 'At-Risk Alert',
-        message: `${shortName} is below 40% PACE completion (${student.pacePercent}%)`,
-        student: student.name,
+        message: `${fullName} is below 40% PACE completion (${student.pacePercent}%)`,
+        student: fullName,
         studentId: student.id,
         time: '10 mins ago',
         read: false,
@@ -29,8 +43,8 @@ function generateSystemNotifications(students) {
         type: 'at-risk',
         severity: 'high',
         title: 'At-Risk Alert',
-        message: `${shortName} is critically behind at ${student.pacePercent}% PACE`,
-        student: student.name,
+        message: `${fullName} is critically behind at ${student.pacePercent}% PACE`,
+        student: fullName,
         studentId: student.id,
         time: '25 mins ago',
         read: false,
@@ -43,8 +57,8 @@ function generateSystemNotifications(students) {
         type: 'risk',
         severity: 'high',
         title: 'Risk Alert Generated',
-        message: `Risk alert generated for ${shortName} — ${student.factor}`,
-        student: student.name,
+        message: `Risk alert generated for ${fullName} — ${student.factor || 'High risk'}`,
+        student: fullName,
         studentId: student.id,
         time: '1 hour ago',
         read: false,
@@ -55,8 +69,8 @@ function generateSystemNotifications(students) {
         type: 'risk',
         severity: 'medium',
         title: 'Risk Warning',
-        message: `${shortName} flagged for monitoring — ${student.factor}`,
-        student: student.name,
+        message: `${fullName} flagged for monitoring — ${student.factor || 'Medium risk'}`,
+        student: fullName,
         studentId: student.id,
         time: '2 hours ago',
         read: true,
@@ -69,8 +83,8 @@ function generateSystemNotifications(students) {
         type: 'attendance',
         severity: 'high',
         title: 'Low Attendance Alert',
-        message: `${shortName}'s attendance has dropped to ${student.attendance}% — below minimum threshold`,
-        student: student.name,
+        message: `${fullName}'s attendance has dropped to ${student.attendance}% — below minimum threshold`,
+        student: fullName,
         studentId: student.id,
         time: '3 hours ago',
         read: true,
