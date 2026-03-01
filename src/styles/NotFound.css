@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;900&display=swap');
+
+.notfound-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 500px;
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+}
+
+.notfound-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+  flex-wrap: wrap;
+}
+
+.notfound-svg-col {
+  flex: 1 1 340px;
+  max-width: 460px;
+  min-width: 260px;
+}
+
+.notfound-svg-col svg { width: 100%; height: auto; }
+
+.notfound-text-col {
+  flex: 1 1 260px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.notfound-code {
+  font-size: 7.5em;
+  margin: 15px 0;
+  font-weight: 900;
+  color: #0e0620;
+  line-height: 1;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.notfound-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0e0620;
+  margin-bottom: 0.75rem;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.notfound-message {
+  font-size: 1rem;
+  color: #0e0620;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.notfound-btn {
+  font-family: 'Nunito Sans', sans-serif;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background: transparent;
+  padding: 8px 50px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1em;
+  letter-spacing: 2px;
+  transition: color 0.2s ease, background 0.2s ease;
+  font-weight: bold;
+  margin: 5px 0;
+  border: 4px solid #2ccf6d;
+  color: #0e0620;
+}
+
+.notfound-btn::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 0%;
+  height: 100%;
+  background: #2ccf6d;
+  z-index: -1;
+  transition: width 0.2s ease;
+}
+
+.notfound-btn:hover { color: #fff; }
+.notfound-btn:hover::before { width: 100%; }
+
+/* Animations */
+/* Spaceman floats */
+.nf-spaceman {
+  animation: nf-float 1s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+@keyframes nf-float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-0.5px) rotate(1deg); }
+}
+
+/* Planet rocks */
+.nf-planet {
+  animation: nf-rock 1s ease-in-out infinite alternate;
+  transform-origin: 572px 108px;
+}
+@keyframes nf-rock {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-2deg); }
+}
+
+/* Craters slide */
+.nf-crater-big {
+  animation: nf-slide-right 1s ease-in-out infinite alternate;
+}
+.nf-crater-small {
+  animation: nf-slide-left 1s ease-in-out infinite alternate;
+}
+@keyframes nf-slide-right {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(3px); }
+}
+@keyframes nf-slide-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-3px); }
+}
+
+/* Big stars - blink */
+.nf-star-big {
+  animation: nf-star-blink 2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes nf-star-blink {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+
+.nf-star-big:nth-child(1) { animation-delay: 0s;   animation-duration: 2s;   }
+.nf-star-big:nth-child(2) { animation-delay: 0.5s; animation-duration: 2.4s; }
+.nf-star-big:nth-child(3) { animation-delay: 1s;   animation-duration: 1.8s; }
+.nf-star-big:nth-child(4) { animation-delay: 1.5s; animation-duration: 2.2s; }
+
+/* Small stars - blink */
+.nf-star-small {
+  animation: nf-star-blink 1.5s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+.nf-star-small:nth-child(1) { animation-delay: 0s;   animation-duration: 1.5s; }
+.nf-star-small:nth-child(2) { animation-delay: 0.2s; animation-duration: 1.8s; }
+.nf-star-small:nth-child(3) { animation-delay: 0.4s; animation-duration: 1.3s; }
+.nf-star-small:nth-child(4) { animation-delay: 0.6s; animation-duration: 2s;   }
+.nf-star-small:nth-child(5) { animation-delay: 0.8s; animation-duration: 1.6s; }
+.nf-star-small:nth-child(6) { animation-delay: 1.0s; animation-duration: 1.4s; }
+/* Circles bob up */
+.nf-circle-big {
+  animation: nf-bob 1s ease-in-out infinite alternate;
+}
+@keyframes nf-bob {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-2px); }
+}
+
+.nf-circle-small {
+  animation: nf-bob-small 1s ease-in-out infinite alternate;
+}
+@keyframes nf-bob-small {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* Glass shine - slides diagonally left to right with rotation (matches GSAP x:-68->80, rotation:-30) */
+.nf-glassshine {
+  animation: nf-shine 10s ease-in-out infinite;
+  animation-delay: 2s;
+  transform-origin: 50% 50%;
+}
+@keyframes nf-shine {
+  0%    { transform: translateX(-68px) rotate(0deg);   opacity: 0; }
+  5%    { transform: translateX(-68px) rotate(0deg);   opacity: 1; }
+  25%   { transform: translateX(80px)  rotate(-30deg); opacity: 1; }
+  30%   { transform: translateX(80px)  rotate(-30deg); opacity: 0; }
+  100%  { transform: translateX(80px)  rotate(-30deg); opacity: 0; }
+}
+
+/* Dark mode */
+[data-theme="dark"] .notfound-code,
+[data-theme="dark"] .notfound-title,
+[data-theme="dark"] .notfound-message {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .notfound-svg-col svg circle,
+[data-theme="dark"] .notfound-svg-col svg ellipse,
+[data-theme="dark"] .notfound-svg-col svg line,
+[data-theme="dark"] .notfound-svg-col svg path,
+[data-theme="dark"] .notfound-svg-col svg polygon {
+  stroke: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] .notfound-svg-col svg circle[fill="#0E0620"] {
+  fill: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] .notfound-svg-col svg path[fill="#FFFFFF"],
+[data-theme="dark"] .notfound-svg-col svg circle[fill="#FFFFFF"],
+[data-theme="dark"] .notfound-svg-col svg ellipse[fill="#FFFFFF"] {
+  fill: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .notfound-btn {
+  border-color: #2ccf6d;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .notfound-btn::before {
+  background: #2ccf6d;
+}
+
+[data-theme="dark"] .notfound-btn:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .notfound-row { flex-direction: column; text-align: center; }
+  .notfound-text-col { align-items: center; }
+  .notfound-code { font-size: 5em; }
+}

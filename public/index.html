@@ -25,6 +25,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Analytics Dashboard (Admin/Teacher View)</title>
+
+    <script>
+      var redirect = sessionStorage.getItem('redirect');
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        var newUrl = '/LBCA-Monitoring-System' + (redirect === '/' ? '' : redirect);
+        window.history.replaceState(null, '', newUrl);
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

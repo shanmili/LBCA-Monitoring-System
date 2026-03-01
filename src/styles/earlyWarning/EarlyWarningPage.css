@@ -1,0 +1,194 @@
+.warning-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.header-subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Risk Summary Cards */
+.risk-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.risk-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+/* Icons color */
+.risk-card.high svg {
+  color: var(--danger);
+}
+
+.risk-card.medium svg {
+  color: var(--warning);
+}
+
+.risk-card.low svg {
+  color: var(--success);
+}
+
+.risk-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.risk-count {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.risk-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Table */
+.warning-table-container {
+  background-color: var(--bg-primary);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.warning-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.warning-table th {
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.warning-table td {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.warning-table tbody tr:hover {
+  background-color: var(--bg-secondary);
+}
+
+.risk-row td:first-child {
+  border-left: none;
+}
+
+.student-name {
+  font-weight: 500;
+}
+
+.pace-cell {
+  font-weight: 600;
+}
+
+.factor-cell {
+  color: var(--text-secondary);
+  max-width: 200px;
+}
+
+.view-btn {
+  padding: 0.375rem 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+/* No Alerts */
+.no-alerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--text-tertiary);
+  gap: 1rem;
+}
+
+.no-alerts svg {
+  color: var(--text-tertiary);
+}
+
+/* Footer */
+.warning-footer {
+  margin-top: 1rem;
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .warning-table-container {
+    overflow-x: auto;
+  }
+  
+  .warning-table {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
+  .warning-page {
+    padding: 1rem;
+  }
+  
+  .warning-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .risk-summary {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
 
@@ -13,11 +14,26 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  if (isLoggedIn) {
-    return <DashboardScreen onLogout={handleLogout} />;
-  }
-
-  return <LoginScreen onLogin={handleLogin} />;
+  return (
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          isLoggedIn
+            ? <Navigate to="/dashboard" replace />
+            : <LoginScreen onLogin={handleLogin} />
+        }
+      />
+      <Route
+        path="/*"
+        element={
+          isLoggedIn
+            ? <DashboardScreen onLogout={handleLogout} />
+            : <Navigate to="/login" replace />
+        }
+      />
+    </Routes>
+  );
 }
 
 export default App;

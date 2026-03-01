@@ -1,0 +1,105 @@
+:root {
+  /* ===== Light Mode (Default) ===== */
+  --primary: #1F4788;
+  --primary-hover: #163563;
+  --primary-light: #EFF6FF;
+  
+  /* Text colors */
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --text-inverse: #FFFFFF;
+  
+  /* Background colors */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
+  --bg-page: #F3F4F6;
+  
+  /* Sidebar */
+  --sidebar-bg: #1F4788;
+  --sidebar-hover: #2E5C8A;
+  --sidebar-active: rgba(255, 255, 255, 0.18);
+  --sidebar-text: #FFFFFF;
+  --sidebar-text-dim: #D1D5DB;
+  --sidebar-border: #2E5C8A;
+  
+  /* Status colors */
+  --success: #10B981;
+  --success-bg: #D1FAE5;
+  --success-text: #059669;
+  
+  --warning: #F59E0B;
+  --warning-bg: #FEF3C7;
+  --warning-text: #D97706;
+  
+  --danger: #EF4444;
+  --danger-bg: #FEE2E2;
+  --danger-text: #DC2626;
+  
+  --info: #3B82F6;
+  --info-bg: #EFF6FF;
+  --info-text: #1E40AF;
+  
+  /* Border colors */
+  --border-color: #E5E7EB;
+  --border-light: #F3F4F6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] {
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+  --primary-light: #1E3A5F;
+  
+  --text-primary: #F9FAFB;
+  --text-secondary: #E5E7EB;
+  --text-muted: #9CA3AF;
+  --text-tertiary: #6B7280;
+  --text-inverse: #111827;
+  
+  --bg-primary: #1F2937;
+  --bg-secondary: #111827;
+  --bg-tertiary: #374151;
+  --bg-page: #111827;
+  
+  --sidebar-bg: #0F172A;
+  --sidebar-hover: #1E293B;
+  --sidebar-active: rgba(255, 255, 255, 0.12);
+  --sidebar-text: #F9FAFB;
+  --sidebar-text-dim: #94A3B8;
+  --sidebar-border: #334155;
+  
+  --success: #34D399;
+  --success-bg: #064E3B;
+  --success-text: #6EE7B7;
+  
+  --warning: #FBBF24;
+  --warning-bg: #78350F;
+  --warning-text: #FCD34D;
+  
+  --danger: #F87171;
+  --danger-bg: #7F1D1D;
+  --danger-text: #FCA5A5;
+  
+  --info: #60A5FA;
+  --info-bg: #1E3A5F;
+  --info-text: #93C5FD;
+  
+  --border-color: #374151;
+  --border-light: #1F2937;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
