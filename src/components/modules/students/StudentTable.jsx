@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../../styles/students/StudentTable.css';
 
 const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {

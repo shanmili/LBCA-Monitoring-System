@@ -1,4 +1,3 @@
-import React from 'react';
 import RiskSummary from './earlywarning/RiskSummary';
 import WarningFilter from './earlywarning/WarningFilter';
 import WarningTable from './earlywarning/WarningTable';

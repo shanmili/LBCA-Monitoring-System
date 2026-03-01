@@ -44,10 +44,6 @@ export default function useDashboardDataState() {
 
   // Get trend data - this matches your mockData structure
   const trendData = quarterlyPaceData[filters.quarter] || quarterlyPaceData.Q2;
-  
-  // Log to verify data is coming through
-  console.log('Quarter selected:', filters.quarter);
-  console.log('Trend Data:', trendData);
 
   // Attendance data
   const attendanceChartData = {

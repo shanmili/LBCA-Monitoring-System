@@ -1,0 +1,264 @@
+/* Print Student Profile Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #fff;
+  color: #333;
+  line-height: 1.5;
+  padding: 2rem;
+}
+
+.print-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #1F4788;
+}
+
+.print-title h1 {
+  color: #1F4788;
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.print-title p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.print-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.student-info-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.info-item {
+  margin-bottom: 0.5rem;
+}
+
+.info-label {
+  color: #666;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.section-title {
+  color: #1F4788;
+  font-size: 1.2rem;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1F4788;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+th {
+  background: #1F4788;
+  color: white;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+tr:hover {
+  background: #f8f9fa;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.status-behind {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.status-ontrack {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.risk-high {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.risk-medium {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.risk-low {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.risk-detail {
+  background: #f8f9fa;
+  border-left: 4px solid;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.risk-detail.high {
+  border-left-color: #DC2626;
+}
+
+.risk-detail.medium {
+  border-left-color: #D97706;
+}
+
+.risk-detail.low {
+  border-left-color: #059669;
+}
+
+.risk-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.severity-badge {
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.severity-badge.high {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.severity-badge.medium {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.severity-badge.low {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.attendance-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.att-card {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.att-present {
+  background: #D1FAE5;
+}
+
+.att-late {
+  background: #FEF3C7;
+}
+
+.att-absent {
+  background: #FEE2E2;
+}
+
+.att-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.att-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+@media print {
+  body {
+    padding: 0.5in;
+  }
+  
+  .no-print {
+    display: none;
+  }
+}

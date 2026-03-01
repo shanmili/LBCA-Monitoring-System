@@ -1,13 +1,11 @@
-import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import '../../../styles/dashboard/TrendChart.css';
 
 const TrendChart = ({ data, title = "PACE Completion Trend" }) => {
-  console.log('TrendChart data:', data);
 
   if (!data || data.length === 0) {
     return (
-      <div className="chart-card"> {/* Removed 'wide' class */}
+      <div className="chart-card"> 
         <h3 className="chart-title">{title}</h3>
         <div className="chart-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <p>No data available</p>
@@ -17,7 +15,7 @@ const TrendChart = ({ data, title = "PACE Completion Trend" }) => {
   }
 
   return (
-    <div className="chart-card"> {/* Removed 'wide' class */}
+    <div className="chart-card"> 
       <h3 className="chart-title">{title}</h3>
       <div className="chart-container">
         <ResponsiveContainer width="100%" height="100%">

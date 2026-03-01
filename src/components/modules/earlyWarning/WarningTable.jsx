@@ -1,4 +1,3 @@
-import React from 'react';
 import { Bell } from 'lucide-react';
 import RiskBadge from '../../../components/common/RiskBadge';
 

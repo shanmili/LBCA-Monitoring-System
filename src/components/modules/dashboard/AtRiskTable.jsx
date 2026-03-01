@@ -1,4 +1,3 @@
-import React from 'react';
 import RiskBadge from '../../../components/common/RiskBadge';
 import "../../../styles/dashboard/AtRiskTable.css";
 

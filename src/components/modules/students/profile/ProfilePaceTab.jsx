@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ProfilePaceTab = ({ student }) => {
   const totalCompleted = student.subjects?.reduce((sum, s) => sum + s.completed, 0) || 0;
   const totalPaces = student.subjects?.reduce((sum, s) => sum + s.total, 0) || 0;

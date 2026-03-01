@@ -11,7 +11,7 @@ import TeachersPage from '../components/modules/TeachersPage.jsx';
 import PacePage from '../components/modules/PacePage.jsx';
 import EarlyWarningPage from '../components/modules/EarlyWarningPage.jsx';
 
-const AdminScreen = ({ onLogout, user }) => {
+const AdminScreen = ({ onLogout }) => {
   const navigate = useNavigate();
   const { schoolLogo } = useSchool();
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useProfileSettingsState from "../../hooks/useProfileSettingsState";
 import UploadPhotoModal from './profileSetting/UploadPhoto';
 import '../../styles/profileSetting/ProfileSetting.css';

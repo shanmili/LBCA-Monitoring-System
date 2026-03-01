@@ -1,4 +1,3 @@
-import React from 'react';
 import { AlertTriangle, Shield } from 'lucide-react';
 import RiskBadge from '../../../common/RiskBadge';
 

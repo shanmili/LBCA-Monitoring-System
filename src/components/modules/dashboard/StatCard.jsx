@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../../styles/dashboard/StatCard.css';
 
 const StatCard = ({ 

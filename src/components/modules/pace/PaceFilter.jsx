@@ -1,5 +1,3 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
 import FilterBar from '../../../components/common/FilterBar';
 import { schoolYears, studentGrades, studentSections, paceSubjects } from '../../../data/mockData';
 

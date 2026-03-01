@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Users, UserPlus, CheckCircle, XCircle, UserCheck } from 'lucide-react';
 import TeacherTable from './teachers/TeacherTable';
 import TeacherFilter from './teachers/TeacherFilter';

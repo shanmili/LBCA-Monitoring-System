@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { ArrowLeft, User, BookOpen, Calendar, AlertTriangle, Printer, Pencil } from 'lucide-react';
 import useStudentProfileState from '../../../hooks/useStudentProfileState';

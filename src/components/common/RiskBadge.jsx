@@ -1,5 +1,3 @@
-import React from 'react';
-
 const RiskBadge = ({ level }) => {
   const getRiskClass = () => {
     switch(level) {

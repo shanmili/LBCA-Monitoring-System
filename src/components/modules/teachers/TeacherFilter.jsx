@@ -1,4 +1,3 @@
-import React from 'react';
 import FilterBar from '../../../components/common/FilterBar';
 
 const TeacherFilter = ({ filters, onFilterChange }) => {

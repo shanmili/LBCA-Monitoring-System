@@ -1,7 +1,41 @@
-.pace-page {
-  padding: 1.5rem;
+.pace-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
+.print-daily-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background-color: var(--success);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.print-daily-btn:hover {
+  background-color: var(--success-text);
+}
+
+@media (max-width: 768px) {
+  .pace-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .print-daily-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 .pace-header-row {
   display: flex;
   align-items: center;

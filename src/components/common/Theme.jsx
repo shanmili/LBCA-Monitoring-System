@@ -1,4 +1,3 @@
-import React from 'react';
 import useThemeState from '../../hooks/useThemeState';
 import '../../styles/Theme.css';
 

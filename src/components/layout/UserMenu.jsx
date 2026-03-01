@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, User, Sun, LogOut } from 'lucide-react';
 import Theme from '../common/Theme.jsx';
 import '../../styles/layout/UserMenu.css';

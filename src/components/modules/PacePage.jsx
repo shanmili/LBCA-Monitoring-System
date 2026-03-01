@@ -1,4 +1,3 @@
-import React from 'react';
 import PaceFilter from './pace/PaceFilter';
 import PaceTable from './pace/PaceTable';
 import usePaceEncodingState from '../../hooks/usePaceEncodingState';

@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../styles/Logo.css';
 
 const Logo = ({ adminPhoto, adminInitials = 'AD', showText = true }) => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Search, Bell } from 'lucide-react';
 import useHeaderState from '../../hooks/useHeaderState.js';
 import { useNotifications } from '../../context/NotificationContext.jsx';

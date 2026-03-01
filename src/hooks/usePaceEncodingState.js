@@ -4,7 +4,6 @@ import { paceSubjects, paceEncodingData, studentsData, studentGrades, studentSec
 const SCHOOL_YEARS = ['2025-2026', '2024-2025', '2023-2024'];
 
 export default function usePaceEncodingState() {
-  console.log('usePaceEncodingState initialized');
 
   const [filters, setFilters] = useState({
     schoolYear: '2025-2026',
@@ -15,7 +14,6 @@ export default function usePaceEncodingState() {
 
   // Store all PACE data
   const [paceDataStore, setPaceDataStore] = useState(() => {
-    console.log('Initializing paceDataStore with:', paceEncodingData);
     return paceEncodingData;
   });
 
@@ -23,21 +21,17 @@ export default function usePaceEncodingState() {
 
   // Load data when filters change
   useEffect(() => {
-    console.log('Filters changed:', filters);
 
     // Filter students based on selected grade and section
     const filteredStudents = studentsData.filter(student => 
       student.gradeLevel === filters.gradeLevel && student.section === filters.section
     );
 
-    console.log('Filtered students:', filteredStudents.length);
-
     // Get existing PACE data for this section/subject
     let sectionData = paceDataStore[filters.section]?.[filters.subject] || [];
 
     // AUTO-CREATE TABLE: If no records exist but there are students, create the table with PACE #1
     if (sectionData.length === 0 && filteredStudents.length > 0) {
-      console.log('Auto-creating PACE table for', filters.subject);
 
       // Create initial record with PACE #1 for all students
       sectionData = filteredStudents.map(student => ({
@@ -66,17 +60,14 @@ export default function usePaceEncodingState() {
       };
     });
 
-    console.log('Combined data:', combinedData);
     setEncodingData(combinedData);
   }, [filters.section, filters.subject, filters.gradeLevel, paceDataStore]);
 
   const updateFilter = (key, value) => {
-    console.log('Updating filter:', key, value);
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const handleDataChange = (updatedData) => {
-    console.log('Data changed:', updatedData);
     setEncodingData(updatedData);
 
     // Update paceDataStore
@@ -90,17 +81,14 @@ export default function usePaceEncodingState() {
         name: student.name,
         paceRecords: student.paceRecords
       }));
-      console.log('Updated paceDataStore:', newStore);
       return newStore;
     });
   };
 
   const handleAddPaceRecord = (newRecords) => {
-    console.log('Adding new PACE records:', newRecords);
 
     // Create a deep copy of the current store
     const updatedStore = JSON.parse(JSON.stringify(paceDataStore));
-    console.log('Current store before update:', updatedStore);
 
     // Track if any records were actually added
     let recordsAdded = false;
@@ -108,36 +96,30 @@ export default function usePaceEncodingState() {
     // Process each new record
     newRecords.forEach((record, index) => {
       const { subject, gradeLevel, section } = record;
-      console.log(`Processing record ${index + 1}:`, { subject, gradeLevel, section });
 
       // Get students for this grade and section
       const classStudents = studentsData.filter(s => 
         s.gradeLevel === gradeLevel && s.section === section
       );
-      console.log(`Found ${classStudents.length} students for ${gradeLevel} ${section}`);
 
       // If no students found, show warning but continue to next record
       if (classStudents.length === 0) {
-        console.warn(`No students found for ${gradeLevel} ${section}. Cannot create PACE records.`);
         alert(`No students found for ${gradeLevel} ${section}. Please add students first.`);
         return;
       }
 
       // Initialize section if it doesn't exist
       if (!updatedStore[section]) {
-        console.log(`Creating new section: ${section}`);
         updatedStore[section] = {};
       }
 
       // Initialize subject if it doesn't exist
       if (!updatedStore[section][subject]) {
-        console.log(`Creating new subject: ${subject} in section ${section}`);
         updatedStore[section][subject] = [];
       }
 
       // For each student in the class
       classStudents.forEach(student => {
-        console.log(`Processing student: ${student.id}`);
 
         const existingIndex = updatedStore[section][subject].findIndex(
           r => r.studentId === student.id
@@ -155,15 +137,11 @@ export default function usePaceEncodingState() {
           );
 
           if (!hasPace1) {
-            console.log(`Student ${student.id} exists, adding PACE #1`);
             updatedStore[section][subject][existingIndex].paceRecords.push(newPaceRecord);
             recordsAdded = true;
-          } else {
-            console.log(`Student ${student.id} already has PACE #1, skipping`);
-          }
+          } 
         } else {
           // New student
-          console.log(`Student ${student.id} is new, creating entry with PACE #1`);
           updatedStore[section][subject].push({
             studentId: student.id,
             name: `${student.lastName}, ${student.firstName}`,
@@ -175,11 +153,8 @@ export default function usePaceEncodingState() {
     });
 
     if (!recordsAdded) {
-      console.log('No new records were added');
       return;
     }
-
-    console.log('Updated store after processing:', updatedStore);
 
     // Update the state
     setPaceDataStore(updatedStore);
@@ -191,23 +166,15 @@ export default function usePaceEncodingState() {
       record.section === filters.section
     );
 
-    console.log('Should refresh current view:', shouldRefresh);
-
     if (shouldRefresh) {
       // Force a refresh by triggering a filter update
-      console.log('Refreshing current view');
       setFilters(prev => ({ ...prev }));
     }
   };
 
   const handleAddPaceForCurrent = () => {
-    console.log('Adding PACE for current view');
-    console.log('Current filters:', filters);
-    console.log('Current encodingData:', encodingData);
-
     // Check if there are students in current view
     if (!encodingData || encodingData.length === 0) {
-      console.log('No students in current view');
       alert('No students found in this class. Cannot add PACE record.');
       return;
     }
@@ -227,8 +194,6 @@ export default function usePaceEncodingState() {
 
     // For each student in current view
     encodingData.forEach(student => {
-      console.log(`Adding PACE for student:`, student);
-
       // Ensure paceRecords exists (fix for the error)
       const currentPaceRecords = student.paceRecords || [];
       const nextPaceNo = currentPaceRecords.length + 1;
@@ -256,15 +221,11 @@ export default function usePaceEncodingState() {
         const hasPaceNo = existingStudent.paceRecords.some(r => r.paceNo === nextPaceNo);
 
         if (!hasPaceNo) {
-          console.log(`Student exists, adding PACE #${nextPaceNo}`);
           existingStudent.paceRecords.push(newPaceRecord);
           recordsAdded = true;
-        } else {
-          console.log(`Student already has PACE #${nextPaceNo}, skipping`);
         }
       } else {
         // New student in store
-        console.log(`Student is new in store, creating with PACE #1`);
         updatedStore[filters.section][filters.subject].push({
           studentId: student.studentId,
           name: student.name,
@@ -275,12 +236,10 @@ export default function usePaceEncodingState() {
     });
 
     if (!recordsAdded) {
-      console.log('No new PACE records were added');
       alert('All students already have this PACE number or no changes were made.');
       return;
     }
-
-    console.log('Updated store:', updatedStore);
+    
     setPaceDataStore(updatedStore);
 
     // Refresh current view

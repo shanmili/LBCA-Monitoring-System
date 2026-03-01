@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, TrendingUp, BookOpen, AlertTriangle } from 'lucide-react';
 import StatCard from './StatCard';
 import '../../../styles/dashboard/KpiCards.css';

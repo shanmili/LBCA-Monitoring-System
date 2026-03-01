@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../../styles/teachers/TeacherTable.css';
 
 const TeacherTable = ({ teachers, onToggleStatus, getStatusBadgeClass, getCustomizedBadgeClass }) => {

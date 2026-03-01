@@ -1,4 +1,3 @@
-import React from 'react';
 import SidebarItem from './SidebarItem';
 import Logo from '../common/Logo';
 import '../../styles/layout/Sidebar.css';

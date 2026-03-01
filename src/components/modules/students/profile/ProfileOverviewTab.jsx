@@ -1,4 +1,3 @@
-import React from 'react';
 import { BookOpen, Calendar, Shield, Target, AlertTriangle, User, Phone, MapPin, Calendar as CalendarIcon, Users, AlertCircle } from 'lucide-react';
 import RiskBadge from '../../../common/RiskBadge';
 
