@@ -10,6 +10,7 @@ import TeachersPage from '../components/modules/TeachersPage.jsx';
 import PacePage from '../components/modules/PacePage.jsx';
 import EarlyWarningPage from '../components/modules/EarlyWarningPage.jsx';
 import NotFound from '../components/common/NotFound.jsx';
+import SetupPage from '../components/modules/setup/SetupPage.jsx';
 
 
 const AdminScreen = ({ onLogout, user }) => {
@@ -48,6 +49,7 @@ const AdminScreen = ({ onLogout, user }) => {
     if (path.includes('/teachers')) return 'teachers';
     if (path.includes('/risk')) return 'risk';
     if (path.includes('/student/')) return 'students';
+    if (path.includes('/class-management')) return 'class-management';
     return 'dashboard';
   };
 
@@ -77,6 +79,7 @@ const AdminScreen = ({ onLogout, user }) => {
             />
           } />
           <Route path="/student/:studentId" element={<StudentsProfile onNavigate={handleNavigate} />} />
+          <Route path="/class-management" element={<SetupPage />} /> 
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>

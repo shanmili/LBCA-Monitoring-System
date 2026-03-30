@@ -1,0 +1,309 @@
+/* ============================================================
+   SetupPage.css — Shared styles for School Years, Grade Levels, Sections
+   ============================================================ */
+
+.setup-page {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Header Row ── */
+.setup-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.setup-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.setup-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-primary);
+}
+
+.setup-title-wrapper h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.setup-header-subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.setup-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ── Add Button ── */
+.setup-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.setup-add-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ── Filter Select ── */
+.setup-filter-select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.setup-filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ── Current Banner ── */
+.setup-current-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* ── Stat Strip ── */
+.setup-stat-strip {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.setup-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.625rem;
+  box-shadow: var(--shadow-sm);
+  min-width: 100px;
+}
+
+.setup-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.setup-stat-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ── Table Card ── */
+.setup-table-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.setup-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.setup-table thead {
+  background: var(--bg-secondary);
+}
+
+.setup-table th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.setup-table td {
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.setup-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.setup-table tbody tr:hover {
+  background-color: var(--bg-secondary);
+  transition: background 0.15s;
+}
+
+.setup-td-bold {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.setup-td-muted {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.setup-empty {
+  text-align: center;
+  padding: 2.5rem 1rem !important;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Badges ── */
+.setup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.setup-badge-active {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.setup-badge-inactive {
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
+}
+
+.setup-badge-grade {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ── Row Actions ── */
+.setup-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.setup-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  background: transparent;
+}
+
+.setup-action-btn.edit {
+  color: var(--primary);
+}
+
+.setup-action-btn.edit:hover {
+  background-color: var(--primary-light);
+}
+
+.setup-action-btn.delete {
+  color: var(--danger);
+}
+
+.setup-action-btn.delete:hover {
+  background-color: var(--danger-bg);
+}
+
+.setup-action-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Footer ── */
+.setup-footer {
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .setup-page {
+    padding: 1rem;
+  }
+
+  .setup-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .setup-header-controls {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .setup-add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .setup-filter-select {
+    width: 100%;
+  }
+
+  .setup-stat-strip {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .setup-table {
+    font-size: 0.8rem;
+  }
+}

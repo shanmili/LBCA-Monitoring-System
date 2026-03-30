@@ -18,12 +18,12 @@
 }
 
 .sidebar-header {
-  padding: 1.25rem 1rem 1rem 1rem; 
+  padding: 1.25rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 }
 
 .sidebar-toggle-btn {
@@ -50,7 +50,7 @@
 }
 
 .sidebar-header .admin-logo {
-  margin-top: 0; 
+  margin-top: 0;
   padding: 0;
 }
 
@@ -119,6 +119,17 @@
   margin: 0.5rem 0;
 }
 
+/* ── Section Label (Setup group) ── */
+.sidebar-section-label {
+  padding: 0.25rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  user-select: none;
+}
+
 /* Scrollbar */
 .sidebar-menu::-webkit-scrollbar {
   width: 4px;
@@ -152,7 +163,7 @@
     transform: translateX(-100%);
     width: 260px;
   }
-  
+
   .sidebar-header {
     padding: 1.25rem 1rem 0.75rem 1rem;
   }
