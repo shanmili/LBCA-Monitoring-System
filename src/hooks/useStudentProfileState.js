@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { studentsData } from '../data/mockData';
 import PrintStudentProfile from '../components/modules/students/PrintStudentProfile';
+import { getStudent, mapStudentFormToApi, mapStudentToUi, updateStudent } from '../api/studentsApi';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -13,22 +14,72 @@ export default function useStudentProfileState(studentId) {
   const [activeTab, setActiveTab] = useState('overview');
   const [showEditModal, setShowEditModal] = useState(false);
   const [studentData, setStudentData] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const found = studentsData.find(s => s.id === studentId);
-    setStudentData(found);
-    setActiveTab('overview');
-    setShowEditModal(false);
+    let isMounted = true;
+
+    const loadStudent = async () => {
+      setLoading(true);
+      setError('');
+
+      try {
+        const row = await getStudent(studentId);
+        if (isMounted) {
+          setStudentData(mapStudentToUi(row));
+        }
+      } catch (requestError) {
+        if (!isMounted) {
+          return;
+        }
+
+        const fallback = studentsData.find((s) => String(s.id) === String(studentId));
+        setStudentData(fallback || null);
+        setError(
+          requestError instanceof Error
+            ? requestError.message
+            : 'Unable to load student profile from API.'
+        );
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+          setActiveTab('overview');
+          setShowEditModal(false);
+        }
+      }
+    };
+
+    loadStudent();
+
+    return () => {
+      isMounted = false;
+    };
   }, [studentId]);
 
-  const handleSaveEdit = (formData) => {
-    const updated = { ...studentData, ...formData };
-    const idx = studentsData.findIndex(s => s.id === studentData.id);
-    if (idx !== -1) {
-      studentsData[idx] = updated;
+  const handleSaveEdit = async (formData) => {
+    if (!studentData?.id) {
+      return;
     }
-    setStudentData(updated);
-    setShowEditModal(false);
+
+    try {
+      const updatedApi = await updateStudent(studentData.id, mapStudentFormToApi(formData));
+      const updatedUi = {
+        ...mapStudentToUi(updatedApi),
+        gradeLevel: formData.gradeLevel || studentData.gradeLevel,
+        section: formData.section || studentData.section,
+      };
+      setStudentData(updatedUi);
+      setError('');
+      setShowEditModal(false);
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Unable to update student profile.'
+      );
+      throw requestError;
+    }
   };
 
   // Helper functions for formatting
@@ -78,6 +129,8 @@ export default function useStudentProfileState(studentId) {
     showEditModal,
     setShowEditModal,
     student: studentData,
+    loading,
+    error,
     handleSaveEdit,
     handlePrint,
   };

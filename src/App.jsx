@@ -17,14 +17,7 @@ import './styles/profileSetting/ProfileSetting.css';
 
 import { SchoolProvider } from './context/SchoolContext';
 import LoadingScreen from './components/common/LoadingScreen';
-
-
-
-
-const VALID_CREDENTIALS = {
-  teacher: { email: 'teacher@lbca.edu', password: 'teacher123' },
-  admin: { email: 'admin@lbca.edu', password: 'admin123' }
-};
+import { login, logout } from './api/authApi';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -37,33 +30,42 @@ function AppContent() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (email, password) => {
+  const handleLogin = async (identifier, password) => {
     setIsLoading(true);
     setError('');
-    setTimeout(() => {
-      if (email === VALID_CREDENTIALS.teacher.email && password === VALID_CREDENTIALS.teacher.password) {
-        const userData = { role: 'teacher', email };
-        sessionStorage.setItem('lbca_user', JSON.stringify(userData));
-        setUser(userData);
-      } else if (email === VALID_CREDENTIALS.admin.email && password === VALID_CREDENTIALS.admin.password) {
-        const userData = { role: 'admin', email };
-        sessionStorage.setItem('lbca_user', JSON.stringify(userData));
-        setUser(userData);
-      } else {
-        setError('Invalid email or password');
-      }
+
+    try {
+      const result = await login(identifier, password);
+      const userData = {
+        role: result.role,
+        username: result.payload?.username || identifier,
+        firstName: result.payload?.first_name || '',
+        lastName: result.payload?.last_name || '',
+      };
+      sessionStorage.setItem('lbca_user', JSON.stringify(userData));
+      setUser(userData);
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Invalid username or password'
+      );
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      await logout(user?.role);
+    } finally {
       sessionStorage.removeItem('lbca_user');
       setUser(null);
       setIsLoading(false);
       navigate('/');
-    }, 800);
+    }
   };
 
   if (isLoading) return <LoadingScreen message={user ? 'Signing out...' : 'Signing you in...'} />;

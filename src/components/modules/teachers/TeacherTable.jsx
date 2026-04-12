@@ -2,12 +2,16 @@ import '../../../styles/teachers/TeacherTable.css';
 
 const TeacherTable = ({ teachers, onToggleStatus, getStatusBadgeClass, getCustomizedBadgeClass }) => {
 
-  const handleStatusToggle = (teacher) => {
+  const handleStatusToggle = async (teacher) => {
     const action = teacher.status === 'active' ? 'deactivate' : 'activate';
     const message = `Are you sure you want to ${action} the account "${teacher.username}"?`;
     
     if (window.confirm(message)) {
-      onToggleStatus(teacher.id);
+      try {
+        await onToggleStatus(teacher.id);
+      } catch (requestError) {
+        alert(requestError?.message || 'Failed to update teacher status.');
+      }
     }
   };
 

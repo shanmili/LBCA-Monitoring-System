@@ -24,9 +24,21 @@ const StudentProfile = ({ onNavigate }) => {
     activeTab, setActiveTab,
     showEditModal, setShowEditModal,
     student,
+    loading,
+    error,
     handleSaveEdit,
     handlePrint,
   } = useStudentProfileState(studentId);
+
+  if (loading) {
+    return (
+      <div className="student-profile">
+        <div className="profile-card">
+          <div className="no-data-message">Loading student profile...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (!student) {
     return (
@@ -126,12 +138,24 @@ const StudentProfile = ({ onNavigate }) => {
         </nav>
 
         {renderTab()}
+
+        {error && (
+          <div className="no-data-message" style={{ marginTop: '12px', color: '#991B1B' }}>
+            API warning: {error}
+          </div>
+        )}
       </div>
 
       <StudentFormModal
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
-        onSave={handleSaveEdit}
+        onSave={async (formData) => {
+          try {
+            await handleSaveEdit(formData);
+          } catch (requestError) {
+            alert(requestError?.message || 'Failed to update student profile.');
+          }
+        }}
         student={student}
       />
     </div>

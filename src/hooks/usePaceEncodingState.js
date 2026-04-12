@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { paceSubjects, paceEncodingData, studentsData, studentGrades, studentSections } from '../data/mockData';
+import { listEnrollments, listStudents } from '../api/studentsApi';
+import { createStudentPace, listStudentPaces, updateStudentPace } from '../api/warningPaceApi';
 
 const SCHOOL_YEARS = ['2025-2026', '2024-2025', '2023-2024'];
 
@@ -18,14 +20,66 @@ export default function usePaceEncodingState() {
   });
 
   const [encodingData, setEncodingData] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [lastSavedAt, setLastSavedAt] = useState('');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const saveTimerRef = useRef(null);
+
+  const mapApiStudentToRow = (student) => ({
+    id: String(student.id),
+    firstName: student.first_name || '',
+    lastName: student.last_name || '',
+    gradeLevel: student.grade_level || student.gradeLevel || '',
+    section: student.section || '',
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadStudents = async () => {
+      try {
+        const rows = await listStudents();
+        if (isMounted) {
+          setAllStudents((rows || []).map(mapApiStudentToRow));
+        }
+      } catch {
+        if (isMounted) {
+          setAllStudents(
+            studentsData.map((student) => ({
+              id: String(student.id),
+              firstName: student.firstName || '',
+              lastName: student.lastName || '',
+              gradeLevel: student.gradeLevel || '',
+              section: student.section || '',
+            }))
+          );
+        }
+      }
+    };
+
+    loadStudents();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const classStudents = useMemo(
+    () =>
+      allStudents.filter(
+        (student) =>
+          student.gradeLevel === filters.gradeLevel && student.section === filters.section
+      ),
+    [allStudents, filters.gradeLevel, filters.section]
+  );
 
   // Load data when filters change
   useEffect(() => {
 
     // Filter students based on selected grade and section
-    const filteredStudents = studentsData.filter(student => 
-      student.gradeLevel === filters.gradeLevel && student.section === filters.section
-    );
+    const filteredStudents = classStudents;
 
     // Get existing PACE data for this section/subject
     let sectionData = paceDataStore[filters.section]?.[filters.subject] || [];
@@ -61,7 +115,7 @@ export default function usePaceEncodingState() {
     });
 
     setEncodingData(combinedData);
-  }, [filters.section, filters.subject, filters.gradeLevel, paceDataStore]);
+  }, [classStudents, filters.section, filters.subject, filters.gradeLevel, paceDataStore]);
 
   const updateFilter = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -69,6 +123,8 @@ export default function usePaceEncodingState() {
 
   const handleDataChange = (updatedData) => {
     setEncodingData(updatedData);
+    setHasUnsavedChanges(true);
+    setSaveError('');
 
     // Update paceDataStore
     setPaceDataStore(prev => {
@@ -98,12 +154,12 @@ export default function usePaceEncodingState() {
       const { subject, gradeLevel, section } = record;
 
       // Get students for this grade and section
-      const classStudents = studentsData.filter(s => 
+      const gradeSectionStudents = allStudents.filter(s => 
         s.gradeLevel === gradeLevel && s.section === section
       );
 
       // If no students found, show warning but continue to next record
-      if (classStudents.length === 0) {
+      if (gradeSectionStudents.length === 0) {
         alert(`No students found for ${gradeLevel} ${section}. Please add students first.`);
         return;
       }
@@ -119,7 +175,7 @@ export default function usePaceEncodingState() {
       }
 
       // For each student in the class
-      classStudents.forEach(student => {
+      gradeSectionStudents.forEach(student => {
 
         const existingIndex = updatedStore[section][subject].findIndex(
           r => r.studentId === student.id
@@ -158,6 +214,8 @@ export default function usePaceEncodingState() {
 
     // Update the state
     setPaceDataStore(updatedStore);
+
+    setHasUnsavedChanges(true);
 
     // Check if current filters match any of the new records
     const shouldRefresh = newRecords.some(record => 
@@ -241,10 +299,121 @@ export default function usePaceEncodingState() {
     }
     
     setPaceDataStore(updatedStore);
+    setHasUnsavedChanges(true);
 
     // Refresh current view
     setFilters(prev => ({ ...prev }));
   };
+
+  const computePacePercent = (paceRecords = []) => {
+    if (!Array.isArray(paceRecords) || paceRecords.length === 0) {
+      return 0;
+    }
+
+    const completed = paceRecords.filter((record) => {
+      const score = record?.testScore;
+      return score !== null && score !== undefined && score !== '';
+    }).length;
+
+    return Number(((completed / paceRecords.length) * 100).toFixed(2));
+  };
+
+  const saveCurrentClassPace = async () => {
+    if (!encodingData || encodingData.length === 0) {
+      return;
+    }
+
+    setSaving(true);
+    setSaveError('');
+
+    try {
+      const existing = await listStudentPaces({ subject: filters.subject });
+      const enrollments = await listEnrollments().catch(() => []);
+      const existingByStudent = new Map(
+        (existing || [])
+          .filter((row) => row.subject === filters.subject)
+          .map((row) => [String(row.student), row])
+      );
+      const enrollmentByStudent = new Map(
+        (enrollments || [])
+          .filter((row) => row?.student)
+          .map((row) => [String(row.student), row.id])
+      );
+
+      const saveTasks = encodingData.map(async (row) => {
+        const studentId = Number(row.studentId);
+        if (!Number.isFinite(studentId)) {
+          return;
+        }
+
+        const pacePercent = computePacePercent(row.paceRecords);
+        const completed = Array.isArray(row.paceRecords)
+          ? row.paceRecords.filter(
+              (record) =>
+                record?.testScore !== null &&
+                record?.testScore !== undefined &&
+                record?.testScore !== ''
+            ).length
+          : 0;
+        const pacesBehind = Math.max(0, 6 - completed);
+
+        const existingRow = existingByStudent.get(String(studentId));
+        if (existingRow?.id) {
+          await updateStudentPace(existingRow.id, {
+            pace_percent: pacePercent,
+            paces_behind: pacesBehind,
+          });
+          return;
+        }
+
+        const createPayload = {
+          student: studentId,
+          subject: filters.subject,
+          pace_percent: pacePercent,
+          paces_behind: pacesBehind,
+        };
+
+        const enrollmentId = enrollmentByStudent.get(String(studentId));
+        if (enrollmentId) {
+          createPayload.enrollment = enrollmentId;
+        }
+
+        await createStudentPace(createPayload);
+      });
+
+      await Promise.all(saveTasks);
+
+      setHasUnsavedChanges(false);
+      setLastSavedAt(new Date().toLocaleTimeString());
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'Unable to save PACE updates.');
+      throw error;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!hasUnsavedChanges) {
+      return;
+    }
+
+    if (saveTimerRef.current) {
+      clearTimeout(saveTimerRef.current);
+    }
+
+    saveTimerRef.current = setTimeout(() => {
+      saveCurrentClassPace().catch(() => {
+        // Error state is already captured in saveError.
+      });
+    }, 1200);
+
+    return () => {
+      if (saveTimerRef.current) {
+        clearTimeout(saveTimerRef.current);
+      }
+    };
+  }, [encodingData, hasUnsavedChanges, filters.subject]);
 
   return {
     SCHOOL_YEARS,
@@ -254,5 +423,10 @@ export default function usePaceEncodingState() {
     handleDataChange,
     handleAddPaceRecord,
     handleAddPaceForCurrent,
+    saveCurrentClassPace,
+    saving,
+    saveError,
+    hasUnsavedChanges,
+    lastSavedAt,
   };
 }

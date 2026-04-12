@@ -22,6 +22,12 @@
   color: var(--text-primary);
 }
 
+.pace-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .add-pace-current-btn {
   display: flex;
   align-items: center;
@@ -41,6 +47,30 @@
   background-color: var(--primary-hover);
 }
 
+.save-pace-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--success);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.save-pace-btn:hover {
+  background-color: var(--success-text);
+}
+
+.save-pace-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .pace-table-wrapper {
   overflow-x: auto;
   max-height: 500px;
@@ -48,7 +78,6 @@
   position: relative;
 }
 
-/* Custom scrollbar using CSS variables */
 .pace-table-wrapper::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -74,7 +103,6 @@
   border: none;
 }
 
-/* Header Styles */
 .pace-table thead {
   position: sticky;
   top: 0;
@@ -148,7 +176,6 @@
   color: var(--text-tertiary);
 }
 
-/* Body Styles */
 .pace-table td {
   padding: 0.75rem;
   font-size: 0.875rem;
@@ -183,7 +210,6 @@
   border-right: 2px solid var(--border-color) !important;
 }
 
-/* Score Cell */
 .score-cell {
   min-width: 100px;
   text-align: center;
@@ -223,7 +249,6 @@
   text-align: center;
 }
 
-/* Table Footer */
 .pace-table-footer {
   padding: 0.75rem 1.5rem;
   background-color: var(--bg-secondary);
@@ -231,20 +256,13 @@
   text-align: right;
 }
 
-.auto-save-note {
+.save-note {
   margin: 0;
   font-size: 0.8rem;
   color: var(--text-secondary);
   font-style: italic;
 }
 
-.auto-save-note::before {
-  content: "✓ ";
-  color: var(--success);
-  font-weight: bold;
-}
-
-/* No Data */
 .no-data-container {
   display: flex;
   flex-direction: column;
@@ -273,25 +291,42 @@
   font-size: 0.75rem;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .pace-table-wrapper {
     overflow-x: auto;
   }
-  
+
   .sticky-col {
     position: sticky;
     left: 0;
     background-color: var(--bg-primary);
     z-index: 5;
   }
-  
+
   .score-input {
     width: 70px;
     font-size: 0.8rem;
   }
-  
+
   .total-input {
     width: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pace-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .pace-table-actions {
+    width: 100%;
+  }
+
+  .add-pace-current-btn,
+  .save-pace-btn {
+    flex: 1;
+    justify-content: center;
   }
 }

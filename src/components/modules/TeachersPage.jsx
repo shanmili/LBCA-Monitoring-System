@@ -14,6 +14,8 @@ const TeachersPage = ({ onNavigate }) => {
     updateFilter,
     filteredTeachers,
     teachers,
+    loading,
+    error,
     getStatusBadgeClass,
     getCustomizedBadgeClass,
     handleAddTeacher,
@@ -85,11 +87,14 @@ const TeachersPage = ({ onNavigate }) => {
       </div>
       
       <TeacherTable 
-        teachers={filteredTeachers}
+        teachers={loading ? [] : filteredTeachers}
         onToggleStatus={handleToggleStatus}
         getStatusBadgeClass={getStatusBadgeClass}
         getCustomizedBadgeClass={getCustomizedBadgeClass}
       />
+
+      {loading && <p>Loading teachers...</p>}
+      {error && <p style={{ color: '#991B1B' }}>API warning: {error}</p>}
 
       <div className="teachers-footer">
         <p>Showing {filteredTeachers.length} of {teachers.length} teacher accounts</p>
@@ -98,9 +103,13 @@ const TeachersPage = ({ onNavigate }) => {
       <TeacherFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={(data) => {
-          handleAddTeacher(data);
-          setIsModalOpen(false);
+        onSave={async (data) => {
+          try {
+            await handleAddTeacher(data);
+            setIsModalOpen(false);
+          } catch (requestError) {
+            alert(requestError?.message || 'Failed to create teacher account.');
+          }
         }}
       />
     </div>

@@ -13,6 +13,8 @@ const StudentsPage = ({ onNavigate, teacher = null }) => {
     updateFilter,
     filteredStudents,
     students,
+    loading,
+    error,
     getStatusBadgeClass,
     handleAddStudent,
   } = useStudentsPageState(teacher);
@@ -42,10 +44,13 @@ const StudentsPage = ({ onNavigate, teacher = null }) => {
       </div>
       
       <StudentTable 
-        students={filteredStudents}
+        students={loading ? [] : filteredStudents}
         getStatusBadgeClass={getStatusBadgeClass}
         onNavigate={onNavigate}
       />
+
+      {loading && <p>Loading students...</p>}
+      {error && <p style={{ color: '#991B1B' }}>API warning: {error}</p>}
 
       <div className="students-footer">
         <p>Showing {filteredStudents.length} of {students.length} students</p>
@@ -54,9 +59,13 @@ const StudentsPage = ({ onNavigate, teacher = null }) => {
       <StudentFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={(newStudent) => {
-          handleAddStudent(newStudent);
-          setIsModalOpen(false);
+        onSave={async (newStudent) => {
+          try {
+            await handleAddStudent(newStudent);
+            setIsModalOpen(false);
+          } catch (requestError) {
+            alert(requestError?.message || 'Failed to create student.');
+          }
         }}
         student={null}
       />

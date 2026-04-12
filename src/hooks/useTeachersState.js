@@ -1,5 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { teachersData } from '../data/mockData';
+import {
+  createTeacher,
+  deleteTeacher,
+  listTeachers,
+  mapTeacherToUi,
+  reactivateTeacher,
+} from '../api/teachersApi';
 
 export default function useTeachersState() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,12 +15,49 @@ export default function useTeachersState() {
     customized: 'All'
   });
   const [teachers, setTeachers] = useState(teachersData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTeachers = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const rows = await listTeachers();
+        if (isMounted) {
+          setTeachers((rows || []).map(mapTeacherToUi));
+        }
+      } catch (requestError) {
+        if (!isMounted) {
+          return;
+        }
+        setTeachers(teachersData);
+        setError(
+          requestError instanceof Error
+            ? requestError.message
+            : 'Unable to load teachers from API.'
+        );
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadTeachers();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const updateFilter = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
-  const filteredTeachers = teachers.filter(teacher => {
+  const filteredTeachers = useMemo(() => teachers.filter(teacher => {
     const matchesSearch = teacher.username.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = filters.status === 'All' || teacher.status === filters.status;
@@ -22,7 +66,7 @@ export default function useTeachersState() {
       (filters.customized === 'no' && !teacher.hasCustomized);
     
     return matchesSearch && matchesStatus && matchesCustomized;
-  });
+  }), [teachers, searchTerm, filters]);
 
   const getStatusBadgeClass = (status) => {
     return `status-badge ${status}`; // Returns 'status-badge active' or 'status-badge inactive'
@@ -32,32 +76,62 @@ export default function useTeachersState() {
     return `customized-badge ${hasCustomized ? 'yes' : 'no'}`;
   };
 
-  const handleAddTeacher = (formData) => {
-    const newId = 'T' + String(teachers.length + 1).padStart(3, '0');
-    const newTeacher = {
-      id: newId,
-      username: formData.username,
-      password: formData.password,
-      status: 'active',
-      lastLogin: 'Never',
-      createdAt: new Date().toISOString().split('T')[0],
-      hasCustomized: false
-    };
-    setTeachers(prev => [...prev, newTeacher]);
-    teachersData.push(newTeacher);
+  const handleAddTeacher = async (formData) => {
+    try {
+      const created = await createTeacher({
+        username: formData.username,
+        password: formData.password,
+      });
+
+      const newTeacher = {
+        id: String(created.teacher_id || ''),
+        username: created.username || formData.username,
+        status: 'active',
+        lastLogin: 'Never',
+        createdAt: new Date().toISOString().split('T')[0],
+        hasCustomized: false,
+      };
+
+      setTeachers((prev) => [...prev, newTeacher]);
+      setError('');
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Unable to create teacher account.'
+      );
+      throw requestError;
+    }
   };
 
-  const handleToggleStatus = (id) => {
-    setTeachers(prev => prev.map(teacher => 
-      teacher.id === id 
-        ? { ...teacher, status: teacher.status === 'active' ? 'inactive' : 'active' } 
-        : teacher
-    ));
-    
-    // Update mock data
-    const index = teachersData.findIndex(t => t.id === id);
-    if (index !== -1) {
-      teachersData[index].status = teachersData[index].status === 'active' ? 'inactive' : 'active';
+  const handleToggleStatus = async (id) => {
+    const teacher = teachers.find((item) => item.id === id);
+    if (!teacher) {
+      return;
+    }
+
+    try {
+      if (teacher.status === 'active') {
+        await deleteTeacher(id);
+        setTeachers((prev) => prev.map((item) => (
+          item.id === id ? { ...item, status: 'inactive' } : item
+        )));
+        setError('');
+        return;
+      }
+
+      await reactivateTeacher(id);
+      setTeachers((prev) => prev.map((item) => (
+        item.id === id ? { ...item, status: 'active' } : item
+      )));
+      setError('');
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Unable to update teacher status.'
+      );
+      throw requestError;
     }
   };
 
@@ -68,6 +142,8 @@ export default function useTeachersState() {
     updateFilter,
     teachers,
     filteredTeachers,
+    loading,
+    error,
     getStatusBadgeClass,
     getCustomizedBadgeClass,
     handleAddTeacher,

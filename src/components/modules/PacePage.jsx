@@ -10,6 +10,11 @@ const PacePage = () => {
     encodingData,
     handleDataChange,
     handleAddPaceForCurrent,
+    saveCurrentClassPace,
+    saving,
+    saveError,
+    hasUnsavedChanges,
+    lastSavedAt,
   } = usePaceEncodingState();
 
   return (
@@ -32,10 +37,16 @@ const PacePage = () => {
         data={encodingData}
         onDataChange={handleDataChange}
         onAddPaceForCurrent={handleAddPaceForCurrent}
+        onSave={saveCurrentClassPace}
+        saving={saving}
+        hasUnsavedChanges={hasUnsavedChanges}
+        lastSavedAt={lastSavedAt}
         subject={filters.subject}
         section={filters.section}
         gradeLevel={filters.gradeLevel}
       />
+
+      {saveError && <p style={{ color: '#991B1B' }}>Save error: {saveError}</p>}
     </div>
   );
 };

@@ -11,6 +11,8 @@ const EarlyWarningPage = ({ onNavigate, teacher = null }) => {
     filteredStudents,
     allStudents,
     riskCounts,
+    loading,
+    error,
   } = useEarlyWarningState(teacher);
 
   return (
@@ -33,9 +35,12 @@ const EarlyWarningPage = ({ onNavigate, teacher = null }) => {
 
       {/* At-Risk Students Table */}
       <WarningTable 
-        students={filteredStudents}
+        students={loading ? [] : filteredStudents}
         onNavigate={onNavigate}
       />
+
+      {loading && <p>Loading warning data...</p>}
+      {error && <p style={{ color: '#991B1B' }}>API warning: {error}</p>}
 
       <div className="warning-footer">
         <p>Showing {filteredStudents.length} of {allStudents.length} students</p>

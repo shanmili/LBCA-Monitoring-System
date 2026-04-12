@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, Plus } from 'lucide-react';
+import { BookOpen, Plus, Save } from 'lucide-react';
 import '../../../styles/pace/PaceTable.css';
 
 const PaceTable = ({ 
   data, 
   onDataChange, 
   onAddPaceForCurrent,
+  onSave,
+  saving = false,
+  hasUnsavedChanges = false,
+  lastSavedAt = '',
   subject,
   section,
   gradeLevel 
@@ -116,10 +120,20 @@ const PaceTable = ({
     <div className="pace-table-container">
       <div className="pace-table-header">
         <h3>{subject} - {gradeLevel} {section}</h3>
-        <button className="add-pace-current-btn" onClick={onAddPaceForCurrent}>
-          <Plus size={16} />
-          PACE
-        </button>
+        <div className="pace-table-actions">
+          <button className="add-pace-current-btn" onClick={onAddPaceForCurrent}>
+            <Plus size={16} />
+            PACE
+          </button>
+          <button
+            className="save-pace-btn"
+            onClick={onSave}
+            disabled={saving || !hasUnsavedChanges}
+          >
+            <Save size={16} />
+            {saving ? 'Saving...' : 'Save'}
+          </button>
+        </div>
       </div>
       <div className="pace-table-wrapper">
         <table className="pace-table">
@@ -178,7 +192,15 @@ const PaceTable = ({
         </table>
       </div>
       <div className="pace-table-footer">
-        <p className="auto-save-note"> All changes are automatically saved</p>
+        <p className="save-note">
+          {saving
+            ? 'Saving changes to backend...'
+            : hasUnsavedChanges
+            ? 'Unsaved changes'
+            : lastSavedAt
+            ? `Saved to backend at ${lastSavedAt}`
+            : 'No changes yet'}
+        </p>
       </div>
     </div>
   );
