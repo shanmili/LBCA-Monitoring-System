@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import '../styles/Login.css';
 
-const LoginScreen = ({ onLogin, error, isLoading }) => {
-  const [identifier, setIdentifier] = useState(''); // Can be email or username
+const LoginScreen = ({ onLogin, error, isLoading, onRegisterClick }) => {
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
@@ -29,11 +29,11 @@ const LoginScreen = ({ onLogin, error, isLoading }) => {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email or Username</label>
+            <label className="form-label">Username</label>
             <input
-              type="text" // Changed from "email" to "text"
+              type="text"
               className="form-input"
-              placeholder="Enter your email or username"
+              placeholder="Enter your username"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
@@ -61,6 +61,15 @@ const LoginScreen = ({ onLogin, error, isLoading }) => {
           >
             {isLoading ? 'Signing in...' : 'Sign In'}
           </button>
+
+          <div className="dev-register-link">
+            <span 
+              onClick={onRegisterClick} 
+              className="dev-link"
+            >
+              Register Admin (Dev Only)
+            </span>
+          </div>
         </form>
       </div>
     </div>

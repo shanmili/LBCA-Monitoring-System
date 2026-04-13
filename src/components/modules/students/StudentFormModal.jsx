@@ -142,11 +142,8 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
                   onChange={e => handleGuardianChange('relationship', e.target.value)}
                 >
                   <option value="">Select Relationship</option>
-                  <option value="Father">Father</option>
-                  <option value="Mother">Mother</option>
-                  <option value="Guardian">Legal Guardian</option>
-                  <option value="Grandparent">Grandparent</option>
-                  <option value="Sibling">Sibling</option>
+                  <option value="Parent">Parent</option>
+                  <option value="Guardian">Guardian</option>
                   <option value="Other">Other</option>
                 </select>
               </div>

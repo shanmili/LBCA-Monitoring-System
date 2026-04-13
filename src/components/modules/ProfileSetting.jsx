@@ -3,15 +3,21 @@ import useProfileSettingsState from "../../hooks/useProfileSettingsState";
 import UploadPhotoModal from './profileSetting/UploadPhoto';
 import '../../styles/profileSetting/ProfileSetting.css';
 
-const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) => { // Add prop
+const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) => {
   const { 
     fname, setFname, 
     lname, setLname, 
     email, setEmail, 
+    phone, setPhone,
+    username,
+    accountStatus,
+    memberSince,
+    lastLogin,
     toast, showToast, 
     displayName, initials,
     schedule, updateScheduleDay, setSchedule, defaultSchedule,
-    sections, toggleSection, availableSections, 
+    sections, toggleSection, availableSections,
+    saveUserData, updateUserPassword, isLoading
   } = useProfileSettingsState(userRole);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -20,7 +26,23 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
 
-  const handlePasswordChange = () => {
+  const handleSaveProfile = async () => {
+    await saveUserData({
+      first_name: fname,
+      last_name: lname,
+      email: email,
+      contact_number: phone,
+    });
+
+    const currentUser = JSON.parse(sessionStorage.getItem('lbca_user') || '{}');
+    currentUser.firstName = fname;
+    currentUser.lastName = lname;
+    sessionStorage.setItem('lbca_user', JSON.stringify(currentUser));
+
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const handlePasswordChange = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
       showToast('Please fill in all password fields');
       return;
@@ -36,19 +58,21 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
       return;
     }
     
-    showToast('Password updated successfully');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    try {
+      await updateUserPassword(currentPassword, newPassword);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      // Error already shown in hook
+    }
   };
 
   const handlePhotoUpload = (file) => {
     const photoUrl = URL.createObjectURL(file);
     setProfilePhoto(photoUrl);
     
-    // Update admin photo in parent if this is admin
     if (onAdminPhotoUpdate) {
-      console.log('Calling onAdminPhotoUpdate with:', photoUrl);
       onAdminPhotoUpdate(photoUrl);
     }
     
@@ -57,14 +81,12 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
   };
 
   const handleCancelProfile = () => {
-    setFname(userRole === 'teacher' ? 'Teacher' : 'Admin');
-    setLname('User');
+    window.location.reload();
   };
 
   return (
     <div className="profile-page">
       <div className="profile-container">
-        {/* Back Button */}
         <button className="back-btn" onClick={() => onNavigate('dashboard')}>
           ← Back to Dashboard
         </button>
@@ -78,13 +100,9 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
           <div className="avatar-section">
             <div className="avatar-large">
               {profilePhoto ? (
-                <img 
-                  src={profilePhoto} 
-                  alt="Profile" 
-                  className="avatar-image" 
-                />
+                <img src={profilePhoto} alt="Profile" className="avatar-image" />
               ) : (
-                initials
+                <span className="avatar-initials">{initials}</span>
               )}
             </div>
             <div className="avatar-info">
@@ -103,6 +121,7 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 type="text" 
                 value={fname} 
                 onChange={e => setFname(e.target.value)} 
+                disabled={isLoading}
               />
             </div>
             <div className="field">
@@ -112,19 +131,25 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 type="text" 
                 value={lname} 
                 onChange={e => setLname(e.target.value)} 
+                disabled={isLoading}
               />
             </div>
             <div className="field field-full">
-              <label className="field-label">Username</label>
-              <input className="field-input" type="text" defaultValue="admin" />
+              <label className="field-label">User ID</label>
+              <input 
+                className="field-input" 
+                type="text" 
+                value={username} 
+                disabled 
+              />
             </div>
           </div>
           <div className="card-actions">
-            <button className="btn-secondary" onClick={handleCancelProfile}>
+            <button className="btn-secondary" onClick={handleCancelProfile} disabled={isLoading}>
               Cancel
             </button>
-            <button className="btn-primary" onClick={() => showToast('Profile updated successfully.')}>
-              Save Changes
+            <button className="btn-primary" onClick={handleSaveProfile} disabled={isLoading}>
+              {isLoading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </div>
@@ -140,36 +165,27 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 type="email" 
                 value={email} 
                 onChange={e => setEmail(e.target.value)} 
+                disabled={isLoading}
               />
             </div>
             <div className="field field-full">
               <label className="field-label">Phone Number</label>
-              <input className="field-input" type="tel" placeholder="+1 (555) 000-0000" />
-            </div>
-            <div className="field field-full">
-              <label className="field-label">Website</label>
-              <input className="field-input" type="url" placeholder="https://yourwebsite.com" />
-            </div>
-            <div className="field">
-              <label className="field-label">Country</label>
-              <select className="field-select">
-                <option>Philippines</option>
-                <option>United States</option>
-                <option>United Kingdom</option>
-                <option>Canada</option>
-                <option>Australia</option>
-                <option>Singapore</option>
-              </select>
-            </div>
-            <div className="field">
-              <label className="field-label">City</label>
-              <input className="field-input" type="text" placeholder="Davao City" />
+              <input 
+                className="field-input" 
+                type="tel" 
+                value={phone} 
+                onChange={e => setPhone(e.target.value)} 
+                placeholder="Enter your phone number"
+                disabled={isLoading}
+              />
             </div>
           </div>
           <div className="card-actions">
-            <button className="btn-secondary">Cancel</button>
-            <button className="btn-primary" onClick={() => showToast('Contact info updated.')}>
-              Save Changes
+            <button className="btn-secondary" onClick={handleCancelProfile} disabled={isLoading}>
+              Cancel
+            </button>
+            <button className="btn-primary" onClick={handleSaveProfile} disabled={isLoading}>
+              {isLoading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </div>
@@ -186,6 +202,7 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter current password"
+                disabled={isLoading}
               />
             </div>
             <div className="field field-full">
@@ -196,6 +213,7 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password (min. 6 characters)"
+                disabled={isLoading}
               />
             </div>
             <div className="field field-full">
@@ -206,27 +224,26 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm new password"
+                disabled={isLoading}
               />
             </div>
           </div>
-          <div className="password-hint">
-            Password must be at least 6 characters
-          </div>
+    
           <div className="card-actions">
             <button className="btn-secondary" onClick={() => {
               setCurrentPassword('');
               setNewPassword('');
               setConfirmPassword('');
-            }}>
+            }} disabled={isLoading}>
               Clear
             </button>
-            <button className="btn-primary" onClick={handlePasswordChange}>
-              Update Password
+            <button className="btn-primary" onClick={handlePasswordChange} disabled={isLoading}>
+              {isLoading ? 'Updating...' : 'Update Password'}
             </button>
           </div>
         </div>
 
-         {/* Schedule Availability Card (Teacher only) */}
+        {/* Schedule Availability Card (Teacher only) */}
         {userRole === 'teacher' && (
           <div className="profile-card">
             <div className="card-label">Schedule Availability</div>
@@ -299,7 +316,7 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
               </div>
             )}
             <div className="card-actions">
-              <button className="btn-secondary" onClick={() => toggleSection(sections[0]) || showToast('Sections cleared.')}>Cancel</button>
+              <button className="btn-secondary" onClick={() => setSections([])}>Cancel</button>
               <button className="btn-primary" onClick={() => showToast('Sections updated successfully.')}>
                 Save Sections
               </button>
@@ -312,15 +329,17 @@ const ProfileSetting = ({ onNavigate, onAdminPhotoUpdate, userRole = 'admin' }) 
           <div className="card-label">Account Details</div>
           <div className="info-row">
             <span className="info-key">Account Status</span>
-            <span className="badge badge-success">● Active</span>
+            <span className={`badge ${accountStatus === 'Active' ? 'badge-success' : 'badge-danger'}`}>
+              ● {accountStatus}
+            </span>
           </div>
           <div className="info-row">
             <span className="info-key">Member Since</span>
-            <span className="info-value">January 12, 2024</span>
+            <span className="info-value">{memberSince}</span>
           </div>
           <div className="info-row info-row-last">
             <span className="info-key">Last Login</span>
-            <span className="info-value">Today at 9:41 AM</span>
+            <span className="info-value">{lastLogin}</span>
           </div>
         </div>
 

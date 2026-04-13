@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TeacherScreen from './screens/TeacherScreen';
 import AdminScreen from './screens/AdminScreen';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 import './styles/Variables.css';
 import './styles/Global.css';
@@ -17,7 +18,7 @@ import './styles/profileSetting/ProfileSetting.css';
 
 import { SchoolProvider } from './context/SchoolContext';
 import LoadingScreen from './components/common/LoadingScreen';
-import { login, logout } from './api/authApi';
+import { login, logout, adminRegister, checkAdminExists } from './api/authApi';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -29,6 +30,23 @@ function AppContent() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [adminExists, setAdminExists] = useState(true);
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const data = await checkAdminExists();
+        setAdminExists(data.admin_exists);
+      } catch (error) {
+        console.error('Failed to check admin:', error);
+      } finally {
+        setCheckingAdmin(false);
+      }
+    };
+    checkAdmin();
+  }, []);
 
   const handleLogin = async (identifier, password) => {
     setIsLoading(true);
@@ -55,6 +73,37 @@ function AppContent() {
     }
   };
 
+  const handleRegister = async (formData) => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Step 1: Register
+      const registerResult = await adminRegister(formData);
+      
+      // Step 2: Auto-login with the returned username
+      const loginResult = await login(registerResult.username, formData.password);
+      
+      const userData = {
+        role: loginResult.role,
+        username: loginResult.payload?.username || registerResult.username,
+        firstName: loginResult.payload?.first_name || '',
+        lastName: loginResult.payload?.last_name || '',
+      };
+      sessionStorage.setItem('lbca_user', JSON.stringify(userData));
+      setUser(userData);
+      setShowRegister(false);
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : 'Registration failed'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleLogout = async () => {
     setIsLoading(true);
 
@@ -68,13 +117,57 @@ function AppContent() {
     }
   };
 
-  if (isLoading) return <LoadingScreen message={user ? 'Signing out...' : 'Signing you in...'} />;
+  if (checkingAdmin) {
+    return <LoadingScreen message="Checking system..." />;
+  }
+
+  if (isLoading) {
+    return <LoadingScreen message={user ? 'Signing out...' : 'Signing you in...'} />;
+  }
+
+  // If no admin exists, show registration only
+  if (!adminExists && !user) {
+    return (
+      <Routes>
+        <Route path="*" element={
+          <RegisterScreen 
+            onRegister={handleRegister} 
+            error={error} 
+            isLoading={isLoading} 
+          />
+        } />
+      </Routes>
+    );
+  }
 
   return (
     <Routes>
-      {!user && <Route path="*" element={<LoginScreen onLogin={handleLogin} error={error} isLoading={isLoading} />} />}
-      {user?.role === 'teacher' && <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />}
-      {user?.role === 'admin' && <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />}
+      {!user && !showRegister && (
+        <Route path="*" element={
+          <LoginScreen 
+            onLogin={handleLogin} 
+            error={error} 
+            isLoading={isLoading}
+            onRegisterClick={() => setShowRegister(true)}
+          />
+        } />
+      )}
+      {!user && showRegister && (
+        <Route path="*" element={
+          <RegisterScreen 
+            onRegister={handleRegister} 
+            error={error} 
+            isLoading={isLoading}
+            onBackToLogin={() => setShowRegister(false)}
+          />
+        } />
+      )}
+      {user?.role === 'teacher' && (
+        <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />
+      )}
+      {user?.role === 'admin' && (
+        <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />
+      )}
     </Routes>
   );
 }

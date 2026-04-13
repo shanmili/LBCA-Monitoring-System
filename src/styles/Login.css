@@ -174,3 +174,51 @@ margin-bottom: 14px;
     font-size: 0.875rem;
   }
 }
+
+/* Form Row */
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.half {
+  flex: 1;
+}
+
+/* Login link */
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.link-text {
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link-text:hover {
+  color: var(--primary-hover);
+}
+
+/* Development only  */
+.dev-register-link {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+}
+
+.dev-link {
+  font-size: 0.7rem;
+  color: white;
+  cursor: pointer;
+  text-decoration: underline;
+}

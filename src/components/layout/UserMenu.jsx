@@ -6,18 +6,45 @@ import '../../styles/layout/UserMenu.css';
 const UserMenu = ({ onLogout, onNavigate, adminPhoto, userRole = 'admin' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const [displayName, setDisplayName] = useState('');
+  const [initials, setInitials] = useState('');
 
+  // Function to load fresh user data from sessionStorage
+  const loadUserData = () => {
+    const user = JSON.parse(sessionStorage.getItem('lbca_user') || '{}');
+    
+    // Get display name from first and last name
+    const name = user.firstName && user.lastName 
+      ? `${user.firstName} ${user.lastName}`
+      : (userRole === 'admin' ? 'Admin User' : 'Teacher User');
+    setDisplayName(name);
+    
+    // Get initials from first and last name
+    const firstInitial = user.firstName ? user.firstName.charAt(0).toUpperCase() : '';
+    const lastInitial = user.lastName ? user.lastName.charAt(0).toUpperCase() : '';
+    setInitials(firstInitial + lastInitial || (userRole === 'admin' ? 'AD' : 'TC'));
+  };
+
+  // Load data when component mounts and when menu opens
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+    loadUserData();
+
+    const handleStorageChange = () => {
+      loadUserData();
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => {
+    if (!isOpen) {
+      loadUserData(); // Refresh data when opening menu
+    }
+    setIsOpen(!isOpen);
+  };
   const closeMenu = () => setIsOpen(false);
 
   const handleProfileClick = () => {
@@ -27,16 +54,22 @@ const UserMenu = ({ onLogout, onNavigate, adminPhoto, userRole = 'admin' }) => {
     }
   };
 
+  // Get avatar content: photo > initials > default
+  const getAvatarContent = () => {
+    if (adminPhoto) {
+      return <img src={adminPhoto} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />;
+    }
+    return initials;
+  };
+
   return (
     <div className="user-menu" ref={menuRef}>
       <button className="user-menu-trigger" onClick={toggleMenu}>
         <div className="avatar">
-          {adminPhoto ? (
-            <img src={adminPhoto} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-          ) : (userRole === 'admin' ? 'AD' : 'TC')}
+          {getAvatarContent()}
         </div>
         <div className="user-info">
-          <span className="user-name">{userRole === 'admin' ? 'Admin User' : 'Teacher User'}</span>
+          <span className="user-name">{displayName}</span>
           <span className="user-role">{userRole === 'admin' ? 'Administrator' : 'Teacher'}</span>
         </div>
         <ChevronDown size={18} className={`dropdown-icon ${isOpen ? 'rotate' : ''}`} />
@@ -45,7 +78,7 @@ const UserMenu = ({ onLogout, onNavigate, adminPhoto, userRole = 'admin' }) => {
       {isOpen && (
         <div className="user-dropdown">
           <div className="dropdown-header">
-            <p>Signed in as <strong>{userRole === 'admin' ? 'Admin User' : 'Teacher User'}</strong></p>
+            <p>Signed in as <strong>{userRole === 'admin' ? 'Administrator' : 'Teacher'}</strong></p>
           </div>
           
           <div className="dropdown-divider" />
