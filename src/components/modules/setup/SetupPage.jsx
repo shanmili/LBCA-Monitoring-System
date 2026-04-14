@@ -552,9 +552,6 @@ const SetupPage = () => {
                       <div className="us-sections-empty">
                         <BookMarked size={14} />
                         <span>No subjects yet for this grade level.</span>
-                        <button className="us-inline-add-btn" onClick={() => openAddSubject(gl.grade_level_id)}>
-                          <Plus size={12} /> Add Subject
-                        </button>
                       </div>
                     ) : (
                       <div className="setup-table-card us-table-card">
