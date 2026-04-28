@@ -1,7 +1,7 @@
 import RiskSummary from './earlyWarning/RiskSummary.jsx';
 import WarningFilter from './earlyWarning/WarningFilter.jsx';
 import WarningTable from './earlyWarning/WarningTable.jsx';
-import useEarlyWarningState from '../../hooks/useEarlyWarningState';
+import useEarlyWarningState from '../../hooks/useEarlyWarningState.js';
 import '../../styles/earlyWarning/EarlyWarningPage.css';
 
 const EarlyWarningPage = ({ onNavigate, teacher = null }) => {

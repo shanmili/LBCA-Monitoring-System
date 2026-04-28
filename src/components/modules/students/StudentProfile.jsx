@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { ArrowLeft, User, BookOpen, Calendar, AlertTriangle, Printer, Pencil } from 'lucide-react';
-import useStudentProfileState from '../../../hooks/useStudentProfileState';
+import useStudentProfileState from '../../../hooks/useStudentProfileState.js';
 import RiskBadge from '../../common/RiskBadge';
 import StudentFormModal from './StudentFormModal';
 import ProfileOverviewTab from './profile/ProfileOverviewTab';

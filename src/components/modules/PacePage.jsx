@@ -1,6 +1,6 @@
 import PaceFilter from './pace/PaceFilter';
 import PaceTable from './pace/PaceTable';
-import usePaceEncodingState from '../../hooks/usePaceEncodingState';
+import usePaceEncodingState from '../../hooks/usePaceEncodingState.js';
 import '../../styles/pace/PacePage.css';
 
 const PacePage = () => {

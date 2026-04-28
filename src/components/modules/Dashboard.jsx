@@ -5,8 +5,8 @@ import TrendChart from './Dashboard/TrendChart.jsx';
 import AttendanceChart from './Dashboard/AttendanceChart.jsx';
 import AtRiskTable from './Dashboard/AtRiskTable.jsx';
 import ActivityFeed from './Dashboard/ActivityFeed.jsx';
-import useDashboardDataState from '../../hooks/useDashboardDataState';
-import LoadingScreen from '../common/LoadingScreen';
+import useDashboardDataState from '../../hooks/useDashboardDataState.js';
+import LoadingScreen from '../common/LoadingScreen.jsx';
 import '../../styles/dashboard/dashboard.css';
 
 const Dashboard = ({ onNavigate, userRole = 'admin' }) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useProfileSettingsState from "../../hooks/useProfileSettingsState";
+import useProfileSettingsState from "../../hooks/useProfileSettingsState.js";
 import UploadPhotoModal from './profileSetting/UploadPhoto';
 import '../../styles/profileSetting/ProfileSetting.css';
 

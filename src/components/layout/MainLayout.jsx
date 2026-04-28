@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
-import useSidebarState from '../../hooks/useSidebarState';
+import useSidebarState from '../../hooks/useSidebarState.js';
 import '../../styles/layout/MainLayout.css';
 
 const MainLayout = ({ 

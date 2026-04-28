@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import StudentTable from './students/StudentTable';
 import StudentFilter from './students/StudentFilter';
 import StudentFormModal from './students/StudentFormModal';
-import useStudentsPageState from '../../hooks/useStudentsPageState';
+import useStudentsPageState from '../../hooks/useStudentsPageState.js';
 import '../../styles/students/StudentsPage.css';
 
 const StudentsPage = ({ onNavigate, teacher = null, searchQuery = '' }) => {

@@ -3,7 +3,7 @@ import { Users, UserPlus, CheckCircle, XCircle, UserCheck } from 'lucide-react';
 import TeacherTable from './teachers/TeacherTable';
 import TeacherFilter from './teachers/TeacherFilter';
 import TeacherFormModal from './teachers/TeacherFormModal';
-import useTeachersState from '../../hooks/useTeachersState';
+import useTeachersState from '../../hooks/useTeachersState.js';
 import '../../styles/teachers/TeachersPage.css';
 
 const TeachersPage = ({ onNavigate, searchQuery = '' }) => {

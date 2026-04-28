@@ -1,4 +1,4 @@
-import useThemeState from '../../hooks/useThemeState';
+import useThemeState from '../../hooks/useThemeState.js';
 import '../../styles/Theme.css';
 
 const Theme = () => {

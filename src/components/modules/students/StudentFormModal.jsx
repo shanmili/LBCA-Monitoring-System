@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import useStudentFormState from '../../../hooks/useStudentFormState';
+import useStudentFormState from '../../../hooks/useStudentFormState.js';
 import '../../../styles/students/StudentFormModal.css';
 
 const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
