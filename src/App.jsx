@@ -105,7 +105,7 @@ function AppContent() {
 function App() {
   return (
     <SchoolProvider>
-      <BrowserRouter basename={import.meta.env.PROD ? '/LBCA-Monitoring-System' : '/'}>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <AppContent />
       </BrowserRouter>
     </SchoolProvider>
