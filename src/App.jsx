@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TeacherScreen from './screens/TeacherScreen';
 import AdminScreen from './screens/AdminScreen';
 import LoginScreen from './screens/LoginScreen';
+import AuthController from './AuthController';
 
 import './styles/Variables.css';
 import './styles/Global.css';
@@ -70,9 +71,31 @@ function AppContent() {
 
   if (isLoading) return <LoadingScreen message={user ? 'Signing out...' : 'Signing you in...'} />;
 
+  const handleAuthSuccess = (accessToken, refreshToken, userObj) => {
+    try {
+      if (accessToken) localStorage.setItem('access_token', accessToken);
+      if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
+      const userData = {
+        role: userObj?.role || userObj?.user?.role || 'teacher',
+        username: userObj?.username || userObj?.user?.username || userObj?.email || '',
+        firstName: userObj?.first_name || userObj?.user?.first_name || '',
+        lastName: userObj?.last_name || userObj?.user?.last_name || '',
+      };
+      sessionStorage.setItem('lbca_user', JSON.stringify(userData));
+      setUser(userData);
+      // navigate to app root so role-based routes are applied
+      navigate('/');
+    } catch (e) {
+      console.error('onAuthSuccess error', e);
+    }
+  };
+
   return (
     <Routes>
-      {!user && <Route path="*" element={<LoginScreen onLogin={handleLogin} error={error} isLoading={isLoading} />} />}
+      {/* Debug / explicit route to view auth screens regardless of session */}
+      <Route path="/auth/*" element={<AuthController onAuthSuccess={handleAuthSuccess} />} />
+
+      {!user && <Route path="*" element={<AuthController onAuthSuccess={handleAuthSuccess} />} />}
       {user?.role === 'teacher' && <Route path="/*" element={<TeacherScreen onLogout={handleLogout} user={user} />} />}
       {user?.role === 'admin' && <Route path="/*" element={<AdminScreen onLogout={handleLogout} user={user} />} />}
     </Routes>
@@ -82,7 +105,7 @@ function AppContent() {
 function App() {
   return (
     <SchoolProvider>
-      <BrowserRouter basename="/LBCA-Monitoring-System">
+      <BrowserRouter basename={import.meta.env.PROD ? '/LBCA-Monitoring-System' : '/'}>
         <AppContent />
       </BrowserRouter>
     </SchoolProvider>

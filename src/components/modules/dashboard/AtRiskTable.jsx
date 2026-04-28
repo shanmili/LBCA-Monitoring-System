@@ -1,4 +1,4 @@
-import RiskBadge from '../../../components/common/RiskBadge';
+import RiskBadge from '../../common/RiskBadge';
 import "../../../styles/dashboard/AtRiskTable.css";
 
 const AtRiskTable = ({ students, onNavigate }) => {

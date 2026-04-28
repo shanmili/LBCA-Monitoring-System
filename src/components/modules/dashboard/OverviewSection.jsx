@@ -1,4 +1,4 @@
-import FilterBar from '../../../components/common/FilterBar';
+import FilterBar from '../../common/FilterBar';
 import '../../../styles/dashboard/OverviewSection.css';
 
 const OverviewSection = ({ title, subtitle, filters, onFilterChange }) => {

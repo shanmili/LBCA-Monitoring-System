@@ -1,10 +1,10 @@
 import React from 'react';
-import OverviewSection from './dashboard/OverviewSection';
-import KpiCards from './dashboard/KpiCards';
-import TrendChart from './dashboard/TrendChart';
-import AttendanceChart from './dashboard/AttendanceChart';
-import AtRiskTable from './dashboard/AtRiskTable';
-import ActivityFeed from './dashboard/ActivityFeed';
+import OverviewSection from './Dashboard/OverviewSection';
+import KpiCards from './Dashboard/KpiCards';
+import TrendChart from './Dashboard/TrendChart';
+import AttendanceChart from './Dashboard/AttendanceChart';
+import AtRiskTable from './Dashboard/AtRiskTable';
+import ActivityFeed from './Dashboard/ActivityFeed';
 import useDashboardDataState from '../../hooks/useDashboardDataState';
 import LoadingScreen from '../common/LoadingScreen';
 import '../../styles/dashboard/dashboard.css';
