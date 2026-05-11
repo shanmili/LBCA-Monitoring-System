@@ -1,7 +1,7 @@
 import { apiRequest } from './client';
 
-const STUDENT_PACES_PATH = '/student-paces/';
-const EARLY_WARNINGS_PATH = '/early-warnings/';
+const STUDENT_PACES_PATH = '/api/student-paces/';
+const EARLY_WARNINGS_PATH = '/api/early-warnings/';
 
 export function listStudentPaces(params = {}) {
   return apiRequest(STUDENT_PACES_PATH, { params });

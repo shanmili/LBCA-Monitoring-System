@@ -1,7 +1,6 @@
 import { apiRequest } from './client';
 
-const TEACHERS_PATH = '/api/admin/teachers/';
-const CREATE_TEACHER_PATH = '/api/admin/teachers/create/';
+const TEACHERS_PATH = '/api/teachers/';
 
 export const mapTeacherToUi = (teacher) => ({
   id: String(teacher.teacher_id ?? teacher.id ?? ''),
@@ -17,20 +16,20 @@ export function listTeachers() {
 }
 
 export function createTeacher(payload) {
-  return apiRequest(CREATE_TEACHER_PATH, {
+  return apiRequest(TEACHERS_PATH, {
     method: 'POST',
     body: payload,
   });
 }
 
 export function deleteTeacher(teacherId) {
-  return apiRequest(`/api/admin/teachers/${teacherId}/delete/`, {
+  return apiRequest(`${TEACHERS_PATH}${teacherId}/`, {
     method: 'DELETE',
   });
 }
 
 export function reactivateTeacher(teacherId) {
-  return apiRequest(`/api/admin/teachers/${teacherId}/reactivate/`, {
+  return apiRequest(`${TEACHERS_PATH}${teacherId}/`, {
     method: 'PATCH',
   });
 }
