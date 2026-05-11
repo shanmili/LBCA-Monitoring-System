@@ -4,6 +4,7 @@ import RegisterScreen from './screens/RegisterScreen.jsx';
 import OTPScreen from './screens/OTPScreen.jsx';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen.jsx';
 import ResetPasswordScreen from './screens/ResetPassword.jsx';
+import { setAuthToken } from './api/client.js';
 
 // Use the same env var names as `src/services/api.js` so both modules target the same backend.
 const API_BASE = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -149,7 +150,7 @@ const AuthController = ({ onAuthSuccess }) => {
           }
 
           if (access) {
-            localStorage.setItem('access_token', access);
+            setAuthToken(access);
             if (refresh) localStorage.setItem('refresh_token', refresh);
             const user = data.user || data.data?.user || data;
             // Ensure email is included in user object for role determination
@@ -187,7 +188,7 @@ const AuthController = ({ onAuthSuccess }) => {
         if (lcEmail === 'admin@lbca.edu.ph' && password === 'Admin123!') {
           const demoAccess = 'demo-admin-token';
           const demoUser = { id: 'demo-admin', email: lcEmail, role: 'admin', name: 'LBCA Admin' };
-          localStorage.setItem('access_token', demoAccess);
+          setAuthToken(demoAccess);
           localStorage.setItem('refresh_token', 'demo-refresh');
           onAuthSuccess(demoAccess, 'demo-refresh', demoUser);
           setIsLoading(false);
@@ -198,7 +199,7 @@ const AuthController = ({ onAuthSuccess }) => {
         if (lcEmail === 'teacher@lbca.edu.ph' && password === 'Teacher123!') {
           const demoAccess = 'demo-teacher-token';
           const demoUser = { id: 'demo-teacher', email: lcEmail, role: 'teacher', name: 'Demo Teacher' };
-          localStorage.setItem('access_token', demoAccess);
+          setAuthToken(demoAccess);
           localStorage.setItem('refresh_token', 'demo-refresh');
           onAuthSuccess(demoAccess, 'demo-refresh', demoUser);
           setIsLoading(false);
@@ -230,7 +231,7 @@ const AuthController = ({ onAuthSuccess }) => {
       const data = await parseResponseBody(res);
       if (!res.ok) throw new Error(extractErrorMessage(data, 'Invalid OTP'));
 
-      localStorage.setItem('access_token', data.access_token);
+      setAuthToken(data.access_token);
       localStorage.setItem('refresh_token', data.refresh_token);
       const userWithEmail = { ...data.user };
       if (!userWithEmail.email) {
